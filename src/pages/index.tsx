@@ -1,5 +1,5 @@
 import Head from "next/head";
-import BaseLayout from "@/layouts/base";
+import BaseLayout from "@/components/layouts/base";
 
 export default function Home(): JSX.Element {
   return (
