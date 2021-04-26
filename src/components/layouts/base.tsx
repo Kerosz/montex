@@ -1,5 +1,5 @@
 // components
-import Header from "@/components/header";
+import Navbar from "@/components/common/navbar";
 // types
 import type { ReactNode } from "react";
 
@@ -10,7 +10,7 @@ export interface Props {
 export default function BaseLayout({ children }: Props): JSX.Element {
   return (
     <>
-      <Header />
+      <Navbar />
       <main className="max-w-screen-xl mx-auto px-3">{children}</main>
     </>
   );
