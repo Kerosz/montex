@@ -20,9 +20,12 @@
       "@/*": ["./*"],
       "@components/*": ["./components/*"],
       "@styles/*": ["./styles/*"],
+      "@services/*": ["./services/*"],
+      "@helpers/*": ["./helpers/*"],
+      "@types/*": ["./types/*"],
       "@hooks/*": ["./hooks/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", ".next"]
 }

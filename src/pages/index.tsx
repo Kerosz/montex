@@ -1,14 +1,15 @@
+// packages
 import Head from "next/head";
-import BaseLayout from "@/components/layouts/base";
+// components
+import BaseLayout from "@components/layouts/base";
 
 export default function Home(): JSX.Element {
   return (
     <div>
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Commentry</title>
       </Head>
-      <BaseLayout>Hello</BaseLayout>
+      <BaseLayout>Hello World</BaseLayout>
     </div>
   );
 }

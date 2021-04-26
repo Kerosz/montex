@@ -1,34 +1,46 @@
-# NextJs Starter Template
+<div align="center">
+
+### Fast - Simple
+
+</div>
 
 ## Introduction
 
-This repo is a simple starting template for next js applications using typescript/eslint/prettier/jest and tailwindcss
+[![GitHub issues](https://img.shields.io/github/issues/Kerosz/instagram-build?style=flat-square)](https://github.com/Kerosz/instagram-build/issues)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](http://chirila.dev)
+
+TBD
+
+Demo live at: TBD
+
+## Features
+
+TBD
 
 ## Codebase
 
 ### Technologies
 
+Most of the codebase consists in **Typescript**
+
+Here is a list of technologies used:
+
 - **NextJs**: Front-end framework
-- **Typescript**: Javascript superset
 - **Tailwind**: CSS framework
-- **Jest**: Testing framework
-- **Eslint**: Linter
-- **Prettier** Code formatter
+- **Firebase**: Cloud database/auth provider
+- **Stripe**: Payment gateway solution
 
 ### Folder structure
 
 ```sh
-template/
+src/
 ├── components     # Reusabble parts
+├── context        # Global state layer
+├── helpers        # Utility functions
 ├── hooks          # React custom hooks
-├── layouts        # View templates
+├── lib            # External helpers
+├── pages          # Application views
+├── services       # External services / network calls
 ├── styles         # General app styles
-└── pages          # Application views
+└── types          # Typescript type declarations
 ```
-
-## Setup
-
-1. Clone or download the project.
-2. `cd` in the project directory.
-3. Run `git remote rm origin` to remove the remote refenrece.
-4. Run `yarn` to install dependencies
