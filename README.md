@@ -6,7 +6,7 @@
 
 ## Introduction
 
-[![GitHub issues](https://img.shields.io/github/issues/Kerosz/instagram-build?style=flat-square)](https://github.com/Kerosz/instagram-build/issues)
+[![GitHub issues](https://img.shields.io/github/issues/Kerosz/commentry?style=flat-square)](https://github.com/Kerosz/commentry/issues)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](http://chirila.dev)
 
 TBD
