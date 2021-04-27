@@ -25,7 +25,7 @@ const Button: FC<ContainerProps> = (props) => {
 
   const rootClass = cn(
     {
-      "px-3 mx-auto max-w-screen-xl": !reset,
+      "lg:px-16 md:px-12 px-3 mx-auto max-w-screen-xl": !reset,
     },
     className
   );

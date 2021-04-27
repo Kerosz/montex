@@ -11,5 +11,6 @@ export function transformRawUser(rawUser: RawUser): AuthUser {
     email: rawUser.email,
     photo_url: rawUser.photoURL,
     auth_provider: rawUser.providerData[0]?.providerId,
+    membership_plan: "hobby",
   };
 }

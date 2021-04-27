@@ -7,6 +7,9 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      rotate: {
+        30: "30deg",
+      },
       colors: {
         black: {
           normal: "#171923",
@@ -14,8 +17,9 @@ module.exports = {
         },
         white: {
           normal: "#ffffff",
-          faded: "rgba(255, 255, 255, 0.8)",
+          faded: "rgba(255, 255, 255, 0.78)",
         },
+        secondary: "#FD2070",
       },
     },
   },

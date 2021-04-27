@@ -4,7 +4,7 @@ import firebase from "@/lib/firebase";
 // helpers
 import { transformRawUser } from "@helpers/transformers";
 // types
-import type { AuthUser, RawUser } from "@/types";
+import type { AuthProvider, AuthUser, RawUser } from "@/types";
 import { createUser, getUserByUserId } from "@/services/firestore";
 
 export default function useAuthProvider() {
@@ -32,6 +32,16 @@ export default function useAuthProvider() {
     }
   }
 
+  async function handlePopupSignIn(provider: AuthProvider) {
+    try {
+      const { user } = await firebase.auth().signInWithPopup(provider);
+
+      await handleRawUser(user, true);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
   async function signInWithEmailAndPassword(
     emailAddress: string,
     password: string
@@ -46,9 +56,13 @@ export default function useAuthProvider() {
   async function signInWithGithub(): Promise<void> {
     const githubProvider = new firebase.auth.GithubAuthProvider();
 
-    const { user } = await firebase.auth().signInWithPopup(githubProvider);
+    await handlePopupSignIn(githubProvider);
+  }
 
-    await handleRawUser(user, true);
+  async function signInWithGoogle(): Promise<void> {
+    const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+    await handlePopupSignIn(googleProvider);
   }
 
   async function signUpWithEmailAndPassword(
@@ -78,6 +92,7 @@ export default function useAuthProvider() {
     user: userState,
     signInWithEmailAndPassword,
     signInWithGithub,
+    signInWithGoogle,
     signUpWithEmailAndPassword,
     signOut,
   };

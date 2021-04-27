@@ -3,5 +3,8 @@ module.exports = {
     webpack5: true,
     strictPostcssConfiguration: true,
   },
+  images: {
+    domains: ["avatars.githubusercontent.com"],
+  },
   poweredByHeader: false,
 };

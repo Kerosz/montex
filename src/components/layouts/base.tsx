@@ -1,5 +1,5 @@
 // components
-import Navbar from "@/components/common/navbar";
+import Navbar from "@components/navbar";
 // types
 import type { ReactNode } from "react";
 
