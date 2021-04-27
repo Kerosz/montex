@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import firebase from "@/lib/firebase";
 // helpers
 import { transformRawUser } from "@helpers/transformers";
+import { createUser, getUserByUserId } from "@services/firestore";
 // types
 import type { AuthProvider, AuthUser, RawUser } from "@/types";
-import { createUser, getUserByUserId } from "@/services/firestore";
 
 export default function useAuthProvider() {
   const [userState, setUser] = useState<AuthUser | null>(null);
