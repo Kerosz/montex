@@ -34,7 +34,7 @@ export default function Dropdown({
           >
             <Menu.Items
               static
-              className="absolute right-0 w-56 mt-2 origin-top-right bg-white-normal divide-y divide-gray-100 rounded-md shadow-lg border border-gray-100 focus:outline-none"
+              className="absolute right-0 w-56 mt-2 origin-top-right bg-white-normal divide-y divide-gray-200 rounded-sm shadow-xl border border-gray-100 focus:outline-none"
             >
               {children}
             </Menu.Items>
@@ -44,3 +44,7 @@ export default function Dropdown({
     </Menu>
   );
 }
+
+const MenuItem = Menu.Item;
+
+export { MenuItem };

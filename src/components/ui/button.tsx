@@ -11,7 +11,14 @@ enum Variant {
   slim,
 }
 
+enum Type {
+  submit,
+  reset,
+  button,
+}
+
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  type?: keyof typeof Type;
   label?: string;
   href?: string;
   as?: Component;
@@ -23,6 +30,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const Button: FC<ButtonProps> = forwardRef((props, ref) => {
   const {
+    type = "button",
     label,
     as,
     component = "button",
@@ -47,12 +55,19 @@ const Button: FC<ButtonProps> = forwardRef((props, ref) => {
       [primaryClass]: variant === "primary",
       [secondaryClass]: variant === "secondary",
       [slimClass]: variant === "slim",
+      "opacity-25": disabled,
     },
     className
   );
 
   return (
-    <Element ref={ref} className={rootClass} disabled={disabled} {...rest}>
+    <Element
+      type={type}
+      ref={ref}
+      className={rootClass}
+      disabled={disabled}
+      {...rest}
+    >
       {loading ? "Loading..." : label || children}
     </Element>
   );

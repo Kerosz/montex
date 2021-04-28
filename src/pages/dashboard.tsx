@@ -41,14 +41,14 @@ export default function Dashboard(): JSX.Element {
         <title>Dashboard - Montex</title>
       </Head>
       <Navbar variant="dashboard" />
-      <div className="pt-9 pb-20 bg-gray-50 border-b border-gray-200">
+      <div className="pt-10 pb-20 bg-gray-50 border-b border-gray-200">
         <Container className="flex justify-between items-center">
           <div className="flex items-center">
             <Link href="/account" title={user.username as string}>
               <Image
                 src={user.photo_url as string}
-                width={85}
-                height={85}
+                width={90}
+                height={90}
                 className="rounded-full"
               />
             </Link>

@@ -1,13 +1,13 @@
 // packages
 import { useEffect, useState } from "react";
-import { Menu } from "@headlessui/react";
 import Image from "next/image";
 import cn from "classnames";
+import { PlusIcon } from "@heroicons/react/outline";
 // components
 import Button from "@components/ui/button";
 import Container from "@components/ui/contaienr";
 import Link from "@components/ui/link";
-import Dropdown from "@components/ui/dropdown";
+import Dropdown, { MenuItem } from "@components/ui/dropdown";
 // context
 import { useAuth } from "@/context/auth";
 // helpers
@@ -81,14 +81,9 @@ export default function Navbar({ variant = "base" }: NavbarProps): JSX.Element {
             </Button>
           </div>
         ) : (
-          <>
-            <Link href="/" title="Montex branding">
-              <Image src="/images/logo-full.png" width={131} height={25} />
-            </Link>
-            {/* <button type="button" onClick={signOut}>
-              s
-            </button> */}
-          </>
+          <Link href="/" title="Montex branding">
+            <Image src="/images/logo-full.png" width={131} height={25} />
+          </Link>
         )}
         {user ? (
           <Dropdown
@@ -98,69 +93,92 @@ export default function Navbar({ variant = "base" }: NavbarProps): JSX.Element {
                 width={30}
                 height={30}
                 className="rounded-full"
+                title={user.username as string}
               />
             }
           >
-            <div className="px-1 py-1 ">
-              <Menu.Item>
+            <div>
+              <MenuItem>
                 {({ active }) => (
-                  <button
+                  <Link
+                    href="/dashboard"
                     className={`${
-                      active ? "bg-violet-500 text-white" : "text-gray-900"
-                    } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                      active ? "bg-gray-50 text-black-normal" : "text-gray-500"
+                    } group flex rounded-md items-center w-full px-5 py-3 text-sm`}
                   >
-                    Edit
-                  </button>
+                    Dashboard
+                  </Link>
                 )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    className={`${
-                      active ? "bg-violet-500 text-white" : "text-gray-900"
-                    } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
-                  >
-                    Duplicate
-                  </button>
-                )}
-              </Menu.Item>
+              </MenuItem>
             </div>
-            <div className="px-1 py-1">
-              <Menu.Item>
+            <div>
+              <MenuItem>
+                {({ active }) => (
+                  <Link
+                    href="/account"
+                    className={`${
+                      active ? "bg-gray-50 text-black-normal" : "text-gray-500"
+                    } group flex rounded-md items-center w-full px-5 py-3 text-sm`}
+                  >
+                    Settings
+                  </Link>
+                )}
+              </MenuItem>
+              <MenuItem>
                 {({ active }) => (
                   <button
+                    type="button"
                     className={`${
-                      active ? "bg-violet-500 text-white" : "text-gray-900"
-                    } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                      active ? "bg-gray-50 text-black-normal" : "text-gray-500"
+                    } group flex justify-between rounded-md items-center w-full px-5 py-3 text-sm`}
                   >
-                    Archive
+                    <span>New Site</span>
+                    <PlusIcon className="w-6" />
                   </button>
                 )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    className={`${
-                      active ? "bg-violet-500 text-white" : "text-gray-900"
-                    } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
-                  >
-                    Move
-                  </button>
-                )}
-              </Menu.Item>
+              </MenuItem>
             </div>
-            <div className="px-1 py-1">
-              <Menu.Item>
+            <div>
+              <MenuItem>
+                {({ active }) => (
+                  <div
+                    className={`${
+                      active ? "bg-gray-50 text-black-normal" : "text-gray-500"
+                    } group flex rounded-md items-center w-full px-5 py-3.5 text-sm`}
+                  >
+                    <div className="flex items-center justify-between w-full">
+                      <label htmlFor="theme" className="block">
+                        Theme
+                      </label>
+                      <select
+                        id="theme"
+                        name="theme"
+                        autoComplete="theme"
+                        className="block py-1.5 pl-3 pr-8 border border-gray-300 bg-white-normal rounded-md shadow-sm focus:outline-none focus:border-black-normal focus:ring-0 cursor-pointer text-sm"
+                      >
+                        <option>System</option>
+                        <option>Light</option>
+                        <option>Dark</option>
+                      </select>
+                    </div>
+                  </div>
+                )}
+              </MenuItem>
+            </div>
+            <div>
+              <MenuItem>
                 {({ active }) => (
                   <button
+                    type="button"
+                    onClick={signOut}
                     className={`${
-                      active ? "bg-violet-500 text-white" : "text-gray-900"
-                    } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                      active ? "bg-gray-50 text-black-normal" : "text-gray-500"
+                    } group flex rounded-md items-center w-full px-5 py-3 text-sm`}
                   >
-                    Delete
+                    Log Out
                   </button>
                 )}
-              </Menu.Item>
+              </MenuItem>
             </div>
           </Dropdown>
         ) : (
