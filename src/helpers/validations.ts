@@ -4,7 +4,6 @@ export const ADD_SITE_SCHEMA = Yup.object().shape({
   name: Yup.string()
     .min(3, "Name must be at least 3 characters long!")
     .max(32, "Name must be 32 characters at most!")
-    .lowercase("Name must be lowercase only!")
     .required("Name is a required field!")
     .strict(),
   new_website: Yup.string()

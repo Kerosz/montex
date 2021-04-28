@@ -4,12 +4,14 @@ import type { JSXElementConstructor } from "react";
 export type RawUser = firebase.User;
 
 export type AuthUser = {
-  uid: RawUser["uid"];
-  username: RawUser["displayName"];
-  email: RawUser["email"];
-  photo_url: RawUser["photoURL"];
+  uid: string;
+  username: string;
+  email: string;
+  photo_url: string;
   auth_provider: string | undefined;
   membership_plan: string;
+  created_at: number;
+  updated_at: number;
 };
 
 export type AuthProvider =
@@ -17,5 +19,11 @@ export type AuthProvider =
   | firebase.auth.GoogleAuthProvider
   | firebase.auth.FacebookAuthProvider
   | firebase.auth.TwitterAuthProvider;
+
+export type RawSiteData = {
+  name: string;
+  new_website: string;
+  description: string;
+};
 
 export type Component = string | JSXElementConstructor<any>;

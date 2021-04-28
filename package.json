@@ -18,10 +18,13 @@
     "@tailwindcss/forms": "^0.3.2",
     "classnames": "^2.3.1",
     "firebase": "^8.4.1",
+    "firebase-admin": "^9.7.0",
     "next": "10.1.3",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-hook-form": "^7.3.4",
+    "swr": "^0.5.5",
+    "uuid": "^8.3.2",
     "yup": "^0.32.9"
   },
   "devDependencies": {
@@ -32,6 +35,7 @@
     "@types/node": "^14.14.41",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.3",
+    "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
     "autoprefixer": "^10.2.5",

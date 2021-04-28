@@ -5,21 +5,20 @@ import { yupResolver } from "@hookform/resolvers/yup";
 // components
 import Modal from "@components/ui/modal";
 import Button from "../ui/button";
+// context
+import { useAuth } from "@/context/auth";
 // helpers
+import { createNewSite } from "@/services/firestore";
 import { ADD_SITE_SCHEMA } from "@helpers/validations";
+// types
+import type { RawSiteData } from "@/types";
 
 export interface AddSiteProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-type FormValues = {
-  name: string;
-  new_website: string;
-  description: string;
-};
-
-const DEFAULT_FORM_VALUES: FormValues = {
+const DEFAULT_FORM_VALUES: RawSiteData = {
   name: "",
   new_website: "",
   description: "",
@@ -29,24 +28,30 @@ export default function AddSite({
   isOpen,
   onClose,
 }: AddSiteProps): JSX.Element {
+  const { user } = useAuth();
   const {
     register,
     handleSubmit,
     formState: { errors, isValid, isSubmitting, touchedFields, isDirty },
     reset,
-  } = useForm<FormValues>({
+  } = useForm<RawSiteData>({
     resolver: yupResolver(ADD_SITE_SCHEMA),
     defaultValues: DEFAULT_FORM_VALUES,
   });
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const onSubmitHandler: SubmitHandler<FormValues> = (data) =>
-    console.log(data);
-
   const handleClose = () => {
     onClose();
     reset(DEFAULT_FORM_VALUES);
+  };
+
+  const onSubmitHandler: SubmitHandler<RawSiteData> = async (data) => {
+    if (user) {
+      await createNewSite(data, user.uid);
+
+      handleClose();
+    }
   };
 
   return (

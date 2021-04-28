@@ -1,7 +1,8 @@
 // packages
 import firebase from "@/lib/firebase";
+import { v4 as uuid } from "uuid";
 // types
-import type { AuthUser } from "@/types";
+import type { AuthUser, RawSiteData } from "@/types";
 
 const _DB = firebase.firestore();
 
@@ -34,4 +35,21 @@ export async function getUserByUserId(
 
 export async function createUser(uid: string, data: AuthUser): Promise<void> {
   return _DB.collection("users").doc(uid).set(data);
+}
+
+export async function createNewSite(
+  rawData: RawSiteData,
+  userId: string
+): Promise<void> {
+  const id = uuid();
+
+  return _DB.collection("sites").doc(id).set({
+    id,
+    user_id: userId,
+    name: rawData.name.toLowerCase(),
+    url: rawData.new_website,
+    description: rawData.description,
+    created_at: Date.now(),
+    updated_at: Date.now(),
+  });
 }

@@ -7,10 +7,12 @@ import type { AuthUser, RawUser } from "@/types";
 export function transformRawUser(rawUser: RawUser): AuthUser {
   return {
     uid: rawUser.uid,
-    username: rawUser.displayName,
-    email: rawUser.email,
-    photo_url: rawUser.photoURL,
+    username: rawUser.displayName as string,
+    email: rawUser.email as string,
+    photo_url: rawUser.photoURL as string,
     auth_provider: rawUser.providerData[0]?.providerId,
     membership_plan: "hobby",
+    created_at: Date.now(),
+    updated_at: Date.now(),
   };
 }
