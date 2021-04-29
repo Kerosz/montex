@@ -1,7 +1,7 @@
 // packages
 import useSWR from "swr";
 import Image from "next/image";
-import { format } from "date-fns";
+import { formatDistanceStrict } from "date-fns";
 // components
 import Button from "@/components/ui/button";
 import Table from "@/components/ui/table";
@@ -22,7 +22,7 @@ export interface OverviewProps {
   children?: ReactNode;
 }
 
-const tableColumns = ["Name", "Site", "Description", "Date Added"];
+const tableColumns = ["Name", "Site", "Description", "Created"];
 
 export default function Overview({ user }: OverviewProps): JSX.Element {
   const { data } = useSWR<SiteData[]>("/api/sites", fetcher);
@@ -50,9 +50,7 @@ export default function Overview({ user }: OverviewProps): JSX.Element {
                 className="rounded-full"
               />
             </Link>
-            <h3 className="text-4xl font-semibold text-black-normal ml-8">
-              {user.username}
-            </h3>
+            <h3 className="text-4xl font-semibold text-black-normal ml-8">{user.username}</h3>
             <span className="bg-gray-50 border border-gray-300 rounded-xl px-1.5 py-0.5 text-xs uppercase ml-2.5 mt-2">
               {user.membership_plan}
             </span>
@@ -70,18 +68,27 @@ export default function Overview({ user }: OverviewProps): JSX.Element {
             <Table columnData={tableColumns}>
               {data.map((entry) => (
                 <tr key={entry.id || entry.name}>
-                  <Table.Td>{entry.name}</Table.Td>
-                  <Table.Td>{entry.url}</Table.Td>
+                  <Table.Td>
+                    <span className="font-semibold text-black-normal">{entry.name}</span>
+                  </Table.Td>
+                  <Table.Td>
+                    <span className="cursor-default">{entry.url}</span>
+                  </Table.Td>
                   <Table.Td>{entry.description}</Table.Td>
-                  <Table.Td>{format(entry.created_at, "yyyy-MM-dd")}</Table.Td>
-                  <Table.Td alignEnd>
+                  <Table.Td style={{ maxWidth: "130px" }}>
+                    <span className="cursor-default">
+                      {formatDistanceStrict(entry.created_at, Date.now(), { addSuffix: true })}
+                    </span>
+                  </Table.Td>
+                  <Table.Td alignEnd style={{ maxWidth: "100px" }}>
                     <Button
-                      as="a"
+                      as={Link}
                       href={entry.url}
+                      external
                       variant="secondary"
                       className="px-4 py-1 text-sm"
                     >
-                      Visit
+                      Details
                     </Button>
                   </Table.Td>
                 </tr>
@@ -90,10 +97,7 @@ export default function Overview({ user }: OverviewProps): JSX.Element {
           ) : (
             <Empty
               addButton={
-                <Button
-                  className="h-10 px-6 font-semibold max-w-max mt-6"
-                  onClick={onOpen}
-                >
+                <Button className="h-10 px-6 font-semibold max-w-max mt-6" onClick={onOpen}>
                   Add Your First Site
                 </Button>
               }

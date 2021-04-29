@@ -23,6 +23,7 @@
       "@services/*": ["./services/*"],
       "@helpers/*": ["./helpers/*"],
       "@types/*": ["./types/*"],
+      "@data/*": ["./data/*"],
       "@hooks/*": ["./hooks/*"]
     }
   },

@@ -14,7 +14,7 @@ import { ADD_SITE_SCHEMA } from "@helpers/validations";
 import { transformRawSite } from "@helpers/transformers";
 import fetcher from "@helpers/fetcher";
 // types
-import type { RawSiteData, SiteData } from "@/types";
+import type { RawSiteData } from "@/types";
 
 export interface AddSiteProps {
   isOpen: boolean;
@@ -27,15 +27,12 @@ const DEFAULT_FORM_VALUES: RawSiteData = {
   description: "",
 };
 
-export default function AddSite({
-  isOpen,
-  onClose,
-}: AddSiteProps): JSX.Element {
+export default function AddSite({ isOpen, onClose }: AddSiteProps): JSX.Element {
   const { user } = useAuth();
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid, isSubmitting, touchedFields, isDirty },
+    formState: { errors, isSubmitting, touchedFields },
     reset,
   } = useForm<RawSiteData>({
     resolver: yupResolver(ADD_SITE_SCHEMA),
@@ -63,21 +60,10 @@ export default function AddSite({
   };
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={handleClose}
-      focusRef={inputRef}
-      title="Add New Site"
-    >
-      <form
-        className="px-4 py-5 space-y-6 sm:p-6"
-        onSubmit={handleSubmit(onSubmitHandler)}
-      >
+    <Modal isOpen={isOpen} onClose={handleClose} focusRef={inputRef} title="Add New Site">
+      <form className="px-4 py-5 space-y-6 sm:p-6" onSubmit={handleSubmit(onSubmitHandler)}>
         <div>
-          <label
-            htmlFor="name"
-            className="block text-sm font-semibold text-gray-500 pl-0.5"
-          >
+          <label htmlFor="name" className="block text-sm font-semibold text-gray-500 pl-0.5">
             Name
           </label>
           <input
@@ -97,10 +83,7 @@ export default function AddSite({
         </div>
 
         <div>
-          <label
-            htmlFor="new_website"
-            className="block text-sm font-semibold text-gray-500 pl-0.5"
-          >
+          <label htmlFor="new_website" className="block text-sm font-semibold text-gray-500 pl-0.5">
             Website
           </label>
           <div className="mt-2 flex rounded-md shadow-sm">
@@ -124,10 +107,7 @@ export default function AddSite({
         </div>
 
         <div>
-          <label
-            htmlFor="description"
-            className="block text-sm font-semibold text-gray-500 pl-0.5"
-          >
+          <label htmlFor="description" className="block text-sm font-semibold text-gray-500 pl-0.5">
             Description
           </label>
           <div className="mt-1">

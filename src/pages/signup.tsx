@@ -1,96 +1,228 @@
 // packages
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { CheckCircleIcon, ArrowNarrowRightIcon, ArrowNarrowLeftIcon } from "@heroicons/react/solid";
+import { MailIcon } from "@heroicons/react/outline";
+import { yupResolver } from "@hookform/resolvers/yup";
 import Image from "next/image";
+import Head from "next/head";
 // components
 import Container from "@components/ui/contaienr";
 import Link from "@components/ui/link";
 import Button from "@/components/ui/button";
+import { Github, Google } from "@/components/icons";
 // context
 import { useAuth } from "@/context/auth";
+// helpers
+import { SIGNUP_SCHEMA } from "@helpers/validations";
+// data
+import features from "@data/signup/features";
+
+type FormValues = {
+  email: string;
+  password: string;
+};
+
+const DEFAULT_FORM_VALUES = {
+  email: "",
+  password: "",
+} as FormValues;
 
 export default function Signup(): JSX.Element {
   const router = useRouter();
-  const { user, signInWithGithub, signInWithGoogle } = useAuth();
+  const { user, signInWithGithub, signInWithGoogle, signUpWithEmailAndPassword } = useAuth();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<FormValues>({
+    resolver: yupResolver(SIGNUP_SCHEMA),
+    defaultValues: DEFAULT_FORM_VALUES,
+    mode: "all",
+  });
+
+  const [serverErrorState, setServerError] = useState<string | null>(null);
+
+  const withEmail = !!router.query.email;
+
+  const handleEmailScreen = (optionEnabled: boolean) => {
+    if (optionEnabled) {
+      router.push({ query: { email: true } });
+    } else {
+      router.push({ query: {} });
+    }
+
+    reset(DEFAULT_FORM_VALUES);
+    setServerError(null);
+  };
+
+  const onSubmitHandler: SubmitHandler<FormValues> = async (formData) => {
+    try {
+      await signUpWithEmailAndPassword(formData.email, formData.password);
+
+      reset(DEFAULT_FORM_VALUES);
+      setServerError(null);
+    } catch (error) {
+      setServerError(error.message);
+    }
+  };
 
   useEffect(() => {
     if (user) router.replace("/dashboard");
   }, [user]);
 
   return (
-    <div className="min-h-screen relative py-10">
+    <div className="min-h-screen relative flex items-center">
       <div
-        className="absolute h-full w-1/2 top-0 left-0 z-0 bg-gray-50 border-r border-gray-200"
+        className="absolute lg:block hidden h-full w-1/2 top-0 left-0 z-0 bg-gray-50 border-r border-gray-200"
         aria-hidden
       />
-      <Container>
-        <Link href="/" title="Montex branding">
+      <Head>
+        <title>Sign Up - Montex</title>
+      </Head>
+
+      <Container className="py-10">
+        <Link href="/" title="Montex branding" fixPosition>
           <Image src="/images/logo-full.png" width={168} height={32} />
         </Link>
-        <div className="grid grid-cols-2 mt-5">
-          <div className="z-10">asdadasda</div>
-          <div className="flex flex-col pl-14 max-w-sm">
-            <h2 className="text-5xl font-semibold" style={{ lineHeight: 1.15 }}>
+        <div className="lg:grid grid-cols-2 lg:mt-7 mt-12 flex flex-col-reverse items-center">
+          <div className="z-10 lg:mt-0 mt-6">
+            <dl className="pt-10 max-w-sm space-y-12">
+              {features.map(({ name, description }) => (
+                <div className="relative" key={name}>
+                  <dt>
+                    <div className="absolute flex items-center justify-center">
+                      <CheckCircleIcon className="w-8 text-secondary" aria-hidden="true" />
+                    </div>
+                    <p className="ml-14 text-2xl leading-6 font-bold text-black-normal">{name}</p>
+                  </dt>
+                  <dd className="mt-4 ml-14 text-lg font-medium text-gray-500">{description}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+
+          <div className="flex flex-col lg:pl-14 max-w-sm">
+            <h2 className="sm:text-5xl text-4xl font-semibold" style={{ lineHeight: 1.15 }}>
               Join the most epic platform
             </h2>
-            <div className="w-full mt-14 space-y-4">
-              <Button
-                className="w-full py-2.5 flex justify-center items-center"
-                onClick={signInWithGithub}
-              >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 14 14"
-                  focusable="false"
-                  role="presentation"
-                  aria-label="github"
-                  className="mr-2"
+            {withEmail ? (
+              <>
+                <form className="sm:mt-12 mt-8 space-y-3" onSubmit={handleSubmit(onSubmitHandler)}>
+                  {serverErrorState && (
+                    <span role="alert" className="text-sm text-secondary text-center block">
+                      {serverErrorState}
+                    </span>
+                  )}
+                  <div>
+                    <label htmlFor="email_address" className="sr-only">
+                      Email address
+                    </label>
+                    <input
+                      type="text"
+                      id="email"
+                      autoComplete="email"
+                      className="mt-1 focus:ring-0 focus:border-black-normal block w-full shadow-sm border-gray-300 rounded-md"
+                      placeholder="Email Address"
+                      {...register("email")}
+                    />
+                    {errors.email && (
+                      <span role="alert" className="text-sm text-secondary">
+                        {errors.email.message}
+                      </span>
+                    )}
+                  </div>
+
+                  <div>
+                    <label htmlFor="password" className="sr-only">
+                      Password
+                    </label>
+                    <input
+                      type="password"
+                      id="password"
+                      autoComplete="off"
+                      className="mt-1 focus:ring-0 focus:border-black-normal block w-full shadow-sm border-gray-300 rounded-md"
+                      placeholder="Password"
+                      {...register("password")}
+                    />
+                    {errors.password && (
+                      <span role="alert" className="text-sm text-secondary">
+                        {errors.password.message}
+                      </span>
+                    )}
+                  </div>
+
+                  <Button type="submit" className="w-full py-2.5 flex justify-center items-center">
+                    <MailIcon className="w-6 mr-2" />
+                    {isSubmitting ? "Loading..." : "Continue with Email"}
+                  </Button>
+                </form>
+
+                <Button
+                  variant="slim"
+                  className="w-full flex items-center justify-center mt-7 text-secondary font-semibold hover:underline focus:outline-none focus:underline"
+                  onClick={() => handleEmailScreen(false)}
+                  onKeyPress={(event) => {
+                    if (event.key === "Enter") handleEmailScreen(false);
+                  }}
                 >
-                  <path
-                    d="M7 .175c-3.872 0-7 3.128-7 7 0 3.084 2.013 5.71 4.79 6.65.35.066.482-.153.482-.328v-1.181c-1.947.415-2.363-.941-2.363-.941-.328-.81-.787-1.028-.787-1.028-.634-.438.044-.416.044-.416.7.044 1.071.722 1.071.722.635 1.072 1.641.766 2.035.59.066-.459.24-.765.437-.94-1.553-.175-3.193-.787-3.193-3.456 0-.766.262-1.378.721-1.881-.065-.175-.306-.897.066-1.86 0 0 .59-.197 1.925.722a6.754 6.754 0 0 1 1.75-.24c.59 0 1.203.087 1.75.24 1.335-.897 1.925-.722 1.925-.722.372.963.131 1.685.066 1.86.46.48.722 1.115.722 1.88 0 2.691-1.641 3.282-3.194 3.457.24.219.481.634.481 1.29v1.926c0 .197.131.415.481.328C11.988 12.884 14 10.259 14 7.175c0-3.872-3.128-7-7-7z"
-                    fill="currentColor"
-                    fillRule="nonzero"
-                  ></path>
-                </svg>
-                Continue with Github
-              </Button>
-              <Button
-                variant="secondary"
-                className="w-full py-2.5 flex justify-center items-center bg-gray-50"
-                onClick={signInWithGoogle}
-              >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 533.5 544.3"
-                  focusable="false"
-                  role="presentation"
-                  aria-label="google"
-                  className="mr-2"
+                  <ArrowNarrowLeftIcon className="w-4 mr-1.5 mt-1" />
+                  Continue with Social
+                </Button>
+              </>
+            ) : (
+              <div className="w-full mt-14">
+                <Button
+                  className="w-full py-2.5 flex justify-center items-center"
+                  onClick={signInWithGithub}
                 >
-                  <g>
-                    <path
-                      d="M533.5 278.4c0-18.5-1.5-37.1-4.7-55.3H272.1v104.8h147c-6.1 33.8-25.7 63.7-54.4 82.7v68h87.7c51.5-47.4 81.1-117.4 81.1-200.2z"
-                      fill="#4285f4"
-                    ></path>
-                    <path
-                      d="M272.1 544.3c73.4 0 135.3-24.1 180.4-65.7l-87.7-68c-24.4 16.6-55.9 26-92.6 26-71 0-131.2-47.9-152.8-112.3H28.9v70.1c46.2 91.9 140.3 149.9 243.2 149.9z"
-                      fill="#34a853"
-                    ></path>
-                    <path
-                      d="M119.3 324.3c-11.4-33.8-11.4-70.4 0-104.2V150H28.9c-38.6 76.9-38.6 167.5 0 244.4l90.4-70.1z"
-                      fill="#fbbc04"
-                    ></path>
-                    <path
-                      d="M272.1 107.7c38.8-.6 76.3 14 104.4 40.8l77.7-77.7C405 24.6 339.7-.8 272.1 0 169.2 0 75.1 58 28.9 150l90.4 70.1c21.5-64.5 81.8-112.4 152.8-112.4z"
-                      fill="#ea4335"
-                    ></path>
-                  </g>
-                </svg>
-                Continue with Google
-              </Button>
-            </div>
+                  <Github className="mr-2" />
+                  Continue with Github
+                </Button>
+                <Button
+                  variant="secondary"
+                  className="w-full py-2.5 flex justify-center items-center bg-gray-50 mt-3.5"
+                  onClick={signInWithGoogle}
+                >
+                  <Google className="mr-2" />
+                  Continue with Google
+                </Button>
+                <Button
+                  variant="slim"
+                  className="w-full flex items-center justify-center mt-7 font-semibold hover:underline focus:outline-none focus:underline text-secondary"
+                  onClick={() => handleEmailScreen(true)}
+                  onKeyPress={(event) => {
+                    if (event.key === "Enter") handleEmailScreen(true);
+                  }}
+                >
+                  Continue with Email
+                  <ArrowNarrowRightIcon className="w-4 ml-1.5 mt-1" />
+                </Button>
+              </div>
+            )}
+            <p className="mt-10 text-gray-500">
+              By clicking continue, you agree to our{" "}
+              <Link href="/legal/terms" className="text-black-normal hover:underline" external>
+                Terms of Service
+              </Link>{" "}
+              and{" "}
+              <Link
+                href="/legal/privacy-policy"
+                className="text-black-normal hover:underline"
+                external
+              >
+                Privacy Policy
+              </Link>
+              .
+            </p>
+            <p className="mt-12 pt-5 border-t border-gray-200 text-gray-700 font-semibold">
+              Already have an account?{" "}
+              <Link href="/login" className="text-secondary hover:underline">
+                Log In
+              </Link>
+            </p>
           </div>
         </div>
       </Container>

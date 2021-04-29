@@ -47,23 +47,22 @@ export default function Navbar({ variant = "base" }: NavbarProps): JSX.Element {
     }
   }, []);
 
-  const baseClass = "h-16 sticky top-0 z-30 bg-white-faded border-b";
+  const baseClass = "h-16 sticky top-0 z-30 border-b";
 
   const rootClass = cn(baseClass, {
     "border-gray-200": showBorderState && variant === "base",
     "border-transparent": !showBorderState && variant === "base",
     "border-gray-200 shadow-sm": variant === "dashboard",
+    "bg-white-faded": variant === "base",
+    "bg-white-normal": variant === "dashboard",
   });
 
   return (
     <header className={rootClass}>
-      <Container
-        as="nav"
-        className="w-full h-full flex justify-between items-center z-20"
-      >
+      <Container as="nav" className="w-full h-full flex justify-between items-center z-20">
         {variant === "dashboard" ? (
           <div className="flex items-center space-x-5">
-            <Link href="/dashboard" title="Montex Dashboard">
+            <Link href="/dashboard" title="Montex Dashboard" fixPosition>
               <Image src="/images/logo-simple.png" width={28} height={28} />
             </Link>
             <span
@@ -193,12 +192,7 @@ export default function Navbar({ variant = "base" }: NavbarProps): JSX.Element {
               Login
             </Button>
 
-            <Button
-              as={Link}
-              href="/signup"
-              className="py-1.5 px-4"
-              title="Sign up"
-            >
+            <Button as={Link} href="/signup" className="py-1.5 px-4" title="Sign up">
               Sign up
             </Button>
           </div>

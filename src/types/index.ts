@@ -1,5 +1,5 @@
 import firebase from "@/lib/firebase";
-import type { JSXElementConstructor } from "react";
+import type { JSXElementConstructor, SVGAttributes } from "react";
 
 export type RawUser = firebase.User;
 
@@ -38,3 +38,5 @@ export type SiteData = {
 };
 
 export type Component = string | JSXElementConstructor<any>;
+
+export interface SvgIcon extends SVGAttributes<HTMLOrSVGElement> {}

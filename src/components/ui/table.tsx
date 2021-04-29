@@ -9,15 +9,11 @@ export interface TableProps {
   children?: ReactNode;
 }
 
-export interface TableDataCellProps
-  extends TdHTMLAttributes<HTMLTableDataCellElement> {
+export interface TableDataCellProps extends TdHTMLAttributes<HTMLTableDataCellElement> {
   alignEnd?: boolean;
 }
 
-export default function Table({
-  columnData,
-  children,
-}: TableProps): JSX.Element {
+export default function Table({ columnData, children }: TableProps): JSX.Element {
   return (
     <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -35,13 +31,11 @@ export default function Table({
                   </th>
                 ))}
                 <th scope="col" className="relative px-6 py-3">
-                  <span className="sr-only">Visit</span>
+                  <span className="sr-only">Details</span>
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white-normal divide-y divide-gray-200">
-              {children}
-            </tbody>
+            <tbody className="bg-white-normal divide-y divide-gray-200">{children}</tbody>
           </table>
         </div>
       </div>
@@ -51,7 +45,7 @@ export default function Table({
 
 Table.Td = function ({ className, alignEnd, ...rest }: TableDataCellProps) {
   const rootClass = cn(
-    "px-6 py-4 whitespace-nowrap",
+    "px-6 py-4 max-w-xs break-words",
     {
       "text-right": alignEnd,
     },

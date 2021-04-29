@@ -26,6 +26,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: keyof typeof Variant;
   disabled?: boolean;
   loading?: boolean;
+  external?: boolean;
 }
 
 const Button: FC<ButtonProps> = forwardRef((props, ref) => {
@@ -48,7 +49,7 @@ const Button: FC<ButtonProps> = forwardRef((props, ref) => {
     "bg-black-normal font-semibold rounded-md text-white-normal hover:bg-black-light";
   const secondaryClass =
     "rounded-md text-gray-500 font-semibold border border-gray-200 hover:text-black-light";
-  const slimClass = "text-gray-600 font-medium hover:text-black-normal";
+  const slimClass = "";
 
   const rootClass = cn(
     {
@@ -61,13 +62,7 @@ const Button: FC<ButtonProps> = forwardRef((props, ref) => {
   );
 
   return (
-    <Element
-      type={type}
-      ref={ref}
-      className={rootClass}
-      disabled={disabled}
-      {...rest}
-    >
+    <Element type={type} ref={ref} className={rootClass} disabled={disabled} {...rest}>
       {loading ? "Loading..." : label || children}
     </Element>
   );
