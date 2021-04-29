@@ -1,5 +1,5 @@
 // types
-import type { AuthUser, RawUser } from "@/types";
+import type { AuthUser, RawSiteData, RawUser, SiteData } from "@/types";
 
 /**
  * Function used to transform the raw authentificated user into a more usable user data
@@ -15,4 +15,26 @@ export function transformRawUser(rawUser: RawUser): AuthUser {
     created_at: Date.now(),
     updated_at: Date.now(),
   };
+}
+
+// TODO: Needs type improvements
+export function transformRawSite(
+  rawSite: RawSiteData,
+  id: string | null = null,
+  userId: string
+) {
+  const siteData: Partial<Omit<SiteData, "doc_id">> = {
+    user_id: userId,
+    name: rawSite.name.toLowerCase(),
+    url: rawSite.new_website,
+    description: rawSite.description,
+    created_at: Date.now(),
+    updated_at: Date.now(),
+  };
+
+  if (id) {
+    siteData.id = id;
+  }
+
+  return siteData;
 }

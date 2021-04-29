@@ -45,6 +45,4 @@ export default function Dropdown({
   );
 }
 
-const MenuItem = Menu.Item;
-
-export { MenuItem };
+Dropdown.Item = Menu.Item;

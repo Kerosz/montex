@@ -1,6 +1,8 @@
 // packages
 import firebase from "@/lib/firebase";
 import { v4 as uuid } from "uuid";
+// helpers
+import { transformRawSite } from "@/helpers/transformers";
 // types
 import type { AuthUser, RawSiteData } from "@/types";
 
@@ -42,14 +44,7 @@ export async function createNewSite(
   userId: string
 ): Promise<void> {
   const id = uuid();
+  const newSite = transformRawSite(rawData, id, userId);
 
-  return _DB.collection("sites").doc(id).set({
-    id,
-    user_id: userId,
-    name: rawData.name.toLowerCase(),
-    url: rawData.new_website,
-    description: rawData.description,
-    created_at: Date.now(),
-    updated_at: Date.now(),
-  });
+  return _DB.collection("sites").doc(id).set(newSite);
 }

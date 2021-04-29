@@ -26,4 +26,15 @@ export type RawSiteData = {
   description: string;
 };
 
+export type SiteData = {
+  id: string;
+  user_id: string;
+  doc_id: string;
+  url: string;
+  description: string;
+  name: string;
+  created_at: number;
+  updated_at: number;
+};
+
 export type Component = string | JSXElementConstructor<any>;

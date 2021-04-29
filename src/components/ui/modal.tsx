@@ -25,7 +25,7 @@ export default function Modal({
       <Dialog
         static
         className="fixed z-40 inset-0 overflow-y-auto"
-        // initialFocus={focusRef}
+        initialFocus={focusRef}
         open={isOpen}
         onClose={onClose}
       >

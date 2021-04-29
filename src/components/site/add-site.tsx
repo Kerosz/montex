@@ -2,6 +2,7 @@
 import { useRef } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import useSWR, { mutate } from "swr";
 // components
 import Modal from "@components/ui/modal";
 import Button from "../ui/button";
@@ -10,8 +11,10 @@ import { useAuth } from "@/context/auth";
 // helpers
 import { createNewSite } from "@/services/firestore";
 import { ADD_SITE_SCHEMA } from "@helpers/validations";
+import { transformRawSite } from "@helpers/transformers";
+import fetcher from "@helpers/fetcher";
 // types
-import type { RawSiteData } from "@/types";
+import type { RawSiteData, SiteData } from "@/types";
 
 export interface AddSiteProps {
   isOpen: boolean;
@@ -37,7 +40,9 @@ export default function AddSite({
   } = useForm<RawSiteData>({
     resolver: yupResolver(ADD_SITE_SCHEMA),
     defaultValues: DEFAULT_FORM_VALUES,
+    mode: "all",
   });
+  const { data } = useSWR<any>("/api/sites", fetcher);
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -46,9 +51,12 @@ export default function AddSite({
     reset(DEFAULT_FORM_VALUES);
   };
 
-  const onSubmitHandler: SubmitHandler<RawSiteData> = async (data) => {
+  const onSubmitHandler: SubmitHandler<RawSiteData> = async (formData) => {
     if (user) {
-      await createNewSite(data, user.uid);
+      await createNewSite(formData, user.uid);
+
+      const tempSiteData = transformRawSite(formData, null, user.uid);
+      mutate("/api/sites", [...data, tempSiteData]);
 
       handleClose();
     }

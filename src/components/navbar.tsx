@@ -7,7 +7,7 @@ import { PlusIcon } from "@heroicons/react/outline";
 import Button from "@components/ui/button";
 import Container from "@components/ui/contaienr";
 import Link from "@components/ui/link";
-import Dropdown, { MenuItem } from "@components/ui/dropdown";
+import Dropdown from "@components/ui/dropdown";
 // context
 import { useAuth } from "@/context/auth";
 // helpers
@@ -98,7 +98,7 @@ export default function Navbar({ variant = "base" }: NavbarProps): JSX.Element {
             }
           >
             <div>
-              <MenuItem>
+              <Dropdown.Item>
                 {({ active }) => (
                   <Link
                     href="/dashboard"
@@ -109,10 +109,10 @@ export default function Navbar({ variant = "base" }: NavbarProps): JSX.Element {
                     Dashboard
                   </Link>
                 )}
-              </MenuItem>
+              </Dropdown.Item>
             </div>
             <div>
-              <MenuItem>
+              <Dropdown.Item>
                 {({ active }) => (
                   <Link
                     href="/account"
@@ -123,8 +123,8 @@ export default function Navbar({ variant = "base" }: NavbarProps): JSX.Element {
                     Settings
                   </Link>
                 )}
-              </MenuItem>
-              <MenuItem>
+              </Dropdown.Item>
+              <Dropdown.Item>
                 {({ active }) => (
                   <button
                     type="button"
@@ -136,10 +136,10 @@ export default function Navbar({ variant = "base" }: NavbarProps): JSX.Element {
                     <PlusIcon className="w-6" />
                   </button>
                 )}
-              </MenuItem>
+              </Dropdown.Item>
             </div>
             <div>
-              <MenuItem>
+              <Dropdown.Item>
                 {({ active }) => (
                   <div
                     className={`${
@@ -163,10 +163,10 @@ export default function Navbar({ variant = "base" }: NavbarProps): JSX.Element {
                     </div>
                   </div>
                 )}
-              </MenuItem>
+              </Dropdown.Item>
             </div>
             <div>
-              <MenuItem>
+              <Dropdown.Item>
                 {({ active }) => (
                   <button
                     type="button"
@@ -178,7 +178,7 @@ export default function Navbar({ variant = "base" }: NavbarProps): JSX.Element {
                     Log Out
                   </button>
                 )}
-              </MenuItem>
+              </Dropdown.Item>
             </div>
           </Dropdown>
         ) : (
