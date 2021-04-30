@@ -22,10 +22,11 @@ enum Variant {
 
 interface NavbarProps {
   variant?: keyof typeof Variant;
+  withBorder?: boolean;
   children?: ReactNode;
 }
 
-export default function Navbar({ variant = "base" }: NavbarProps): JSX.Element {
+export default function Navbar({ variant = "base", withBorder }: NavbarProps): JSX.Element {
   const { user, signOut } = useAuth();
   const [showBorderState, setShowBorder] = useState<boolean>(false);
 
@@ -50,8 +51,8 @@ export default function Navbar({ variant = "base" }: NavbarProps): JSX.Element {
   const baseClass = "h-16 sticky top-0 z-30 border-b";
 
   const rootClass = cn(baseClass, {
-    "border-gray-200": showBorderState && variant === "base",
-    "border-transparent": !showBorderState && variant === "base",
+    "border-gray-200": (showBorderState && variant === "base") || withBorder,
+    "border-transparent": !showBorderState && !withBorder && variant === "base",
     "border-gray-200 shadow-sm": variant === "dashboard",
     "bg-white-faded": variant === "base",
     "bg-white-normal": variant === "dashboard",
@@ -181,7 +182,7 @@ export default function Navbar({ variant = "base" }: NavbarProps): JSX.Element {
             </div>
           </Dropdown>
         ) : (
-          <div className="space-x-6">
+          <div className="sm:space-x-6 space-x-2">
             <Button
               as={Link}
               href="/login"

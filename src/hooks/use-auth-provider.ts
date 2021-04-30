@@ -42,13 +42,8 @@ export default function useAuthProvider() {
     }
   }
 
-  async function signInWithEmailAndPassword(
-    emailAddress: string,
-    password: string
-  ): Promise<void> {
-    const { user } = await firebase
-      .auth()
-      .signInWithEmailAndPassword(emailAddress, password);
+  async function signInWithEmailAndPassword(emailAddress: string, password: string): Promise<void> {
+    const { user } = await firebase.auth().signInWithEmailAndPassword(emailAddress, password);
 
     handleRawUser(user);
   }
@@ -65,13 +60,14 @@ export default function useAuthProvider() {
     await handlePopupSignIn(googleProvider);
   }
 
-  async function signUpWithEmailAndPassword(
-    emailAddress: string,
-    password: string
-  ): Promise<void> {
-    const { user } = await firebase
-      .auth()
-      .createUserWithEmailAndPassword(emailAddress, password);
+  async function signInWithTwitter(): Promise<void> {
+    const twitterProvider = new firebase.auth.TwitterAuthProvider();
+
+    await handlePopupSignIn(twitterProvider);
+  }
+
+  async function signUpWithEmailAndPassword(emailAddress: string, password: string): Promise<void> {
+    const { user } = await firebase.auth().createUserWithEmailAndPassword(emailAddress, password);
 
     await handleRawUser(user, true);
   }
@@ -81,9 +77,7 @@ export default function useAuthProvider() {
   }
 
   useEffect(() => {
-    const listner = firebase
-      .auth()
-      .onAuthStateChanged((user) => handleRawUser(user));
+    const listner = firebase.auth().onAuthStateChanged((user) => handleRawUser(user));
 
     return () => listner();
   }, []);
@@ -93,6 +87,7 @@ export default function useAuthProvider() {
     signInWithEmailAndPassword,
     signInWithGithub,
     signInWithGoogle,
+    signInWithTwitter,
     signUpWithEmailAndPassword,
     signOut,
   };

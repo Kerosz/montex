@@ -29,14 +29,6 @@ export default function Overview({ user }: OverviewProps): JSX.Element {
 
   const { isOpen, onClose, onOpen } = useDisclosure();
 
-  if (!data) {
-    return (
-      <Container>
-        <p>Loading</p>
-      </Container>
-    );
-  }
-
   return (
     <>
       <section className="pt-10 pb-20 bg-gray-50 border-b border-gray-200">
@@ -64,7 +56,17 @@ export default function Overview({ user }: OverviewProps): JSX.Element {
 
       <section className="transform -translate-y-8">
         <Container>
-          {data.length > 0 ? (
+          {!data && <h1>Loading...</h1>}
+          {data && data.length === 0 && (
+            <Empty
+              addButton={
+                <Button className="h-10 px-6 font-semibold max-w-max mt-6" onClick={onOpen}>
+                  Add Your First Site
+                </Button>
+              }
+            />
+          )}
+          {data && (
             <Table columnData={tableColumns}>
               {data.map((entry) => (
                 <tr key={entry.id || entry.name}>
@@ -94,14 +96,6 @@ export default function Overview({ user }: OverviewProps): JSX.Element {
                 </tr>
               ))}
             </Table>
-          ) : (
-            <Empty
-              addButton={
-                <Button className="h-10 px-6 font-semibold max-w-max mt-6" onClick={onOpen}>
-                  Add Your First Site
-                </Button>
-              }
-            />
           )}
         </Container>
       </section>
