@@ -53,7 +53,7 @@ export default function AddSite({ isOpen, onClose }: AddSiteProps): JSX.Element 
       await createNewSite(formData, user.uid);
 
       const tempSiteData = transformRawSite(formData, null, user.uid);
-      mutate("/api/sites", [...data, tempSiteData]);
+      mutate(`/api/sites/${user.uid}`, [...data, tempSiteData]);
 
       handleClose();
     }
@@ -88,7 +88,7 @@ export default function AddSite({ isOpen, onClose }: AddSiteProps): JSX.Element 
           </label>
           <div className="mt-2 flex rounded-md shadow-sm">
             <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-100 text-gray-500 text-sm">
-              http://
+              https://
             </span>
             <input
               type="text"

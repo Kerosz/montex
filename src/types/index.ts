@@ -1,7 +1,7 @@
 import firebase from "@/lib/firebase";
 import type { JSXElementConstructor, SVGAttributes } from "react";
 
-export type RawUser = firebase.User;
+export type RawUser = firebase.User & { za?: string };
 
 export type AuthUser = {
   uid: string;
@@ -9,10 +9,13 @@ export type AuthUser = {
   email: string;
   photo_url: string;
   auth_provider: string | undefined;
+  jwt_token: string | undefined;
   membership_plan: string;
   created_at: number;
   updated_at: number;
 };
+
+export type AuthUserWithoutToken = Omit<AuthUser, "jwt_token">;
 
 export type AuthProvider =
   | firebase.auth.GithubAuthProvider

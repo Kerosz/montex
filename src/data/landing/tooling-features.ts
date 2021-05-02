@@ -21,7 +21,7 @@ export default {
     {
       name: "Start commenting",
       description:
-        "Add new comments, reviews, leave feedback or start a new discussion and much more, everything done for you.",
+        "Add new comments, reviews, leave feedback or start a new discussion and much more, all handled for you.",
       icon: ChatAltIcon,
     },
     {

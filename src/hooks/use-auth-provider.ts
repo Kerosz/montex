@@ -5,7 +5,7 @@ import firebase from "@/lib/firebase";
 import { transformRawUser } from "@helpers/transformers";
 import { createUser, getUserByUserId } from "@services/firestore";
 // types
-import type { AuthProvider, AuthUser, RawUser } from "@/types";
+import type { AuthProvider, RawUser, AuthUser } from "@/types";
 
 export default function useAuthProvider() {
   const [userState, setUser] = useState<AuthUser | null>(null);
@@ -19,9 +19,9 @@ export default function useAuthProvider() {
       return;
     }
 
-    const user = transformRawUser(rawUser);
+    const { jwt_token, ...user } = transformRawUser(rawUser);
 
-    setUser(user);
+    setUser({ jwt_token, ...user });
 
     if (insertToDB) {
       const doesUserExist = await getUserByUserId(user.uid);

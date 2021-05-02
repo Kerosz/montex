@@ -4,7 +4,7 @@ export const ADD_SITE_SCHEMA = Yup.object().shape({
   name: Yup.string()
     .min(3, "Name must be at least 3 characters long!")
     .max(21, "Name must be 21 characters at most!")
-    .matches(/^[a-z-_]+$/, "Name must only include words separated by - or _")
+    .matches(/^[a-zA-Z-_]+$/, "Name must only include words separated by - or _")
     .required("Name is a required field!")
     .strict(),
   new_website: Yup.string().required("Site URL is required!"),

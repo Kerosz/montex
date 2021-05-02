@@ -11,6 +11,7 @@ export function transformRawUser(rawUser: RawUser): AuthUser {
     email: rawUser.email as string,
     photo_url: (rawUser.photoURL as string) || "/photo",
     auth_provider: rawUser.providerData[0]?.providerId,
+    jwt_token: rawUser.za,
     membership_plan: "hobby",
     created_at: Date.now(),
     updated_at: Date.now(),
