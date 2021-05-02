@@ -143,7 +143,7 @@ export default function SigningForm({ onSubmit }: EmailFormProps) {
       </Button>
       <Button
         variant="secondary"
-        className="w-full py-2.5 flex justify-center items-center bg-blue-500 mt-3.5 text-white-normal hover:text-white-faded"
+        className="w-full py-2.5 flex justify-center items-center bg-blue-500 mt-3.5 text-white-normal hover:text-gray-200"
         onClick={signInWithTwitter}
       >
         <Twitter className="mr-2" />

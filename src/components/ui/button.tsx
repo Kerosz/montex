@@ -49,7 +49,7 @@ const Button: FC<ButtonProps> = forwardRef((props, ref) => {
     "bg-black-normal font-semibold rounded-md text-white-normal hover:bg-black-light";
   const secondaryClass =
     "rounded-md text-gray-500 font-semibold border border-gray-200 hover:text-black-light";
-  const slimClass = "";
+  const slimClass = "rounded-md";
 
   const rootClass = cn(
     {

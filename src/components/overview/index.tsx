@@ -37,8 +37,8 @@ export default function Overview({ user }: OverviewProps): JSX.Element {
             <Link href="/account" title={user.username as string}>
               <Image
                 src={user.photo_url as string}
-                width={90}
-                height={90}
+                width={100}
+                height={100}
                 className="rounded-full"
               />
             </Link>

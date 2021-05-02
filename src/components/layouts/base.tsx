@@ -11,7 +11,7 @@ export default function BaseLayout({ children }: Props): JSX.Element {
   return (
     <>
       <Navbar />
-      <main className="max-w-screen-xl mx-auto px-3">{children}</main>
+      <main>{children}</main>
     </>
   );
 }
