@@ -18,6 +18,10 @@ module.exports = {
         },
         secondary: "#FD2070",
       },
+      fontSize: {
+        "10xl": ["9.1rem", 1],
+        vw: ["18vw", 1],
+      },
     },
   },
   variants: {

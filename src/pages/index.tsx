@@ -22,7 +22,7 @@ export default function Home(): JSX.Element {
           <Heading title="Add." />
           <Heading title="Embed." />
           <Heading title="Comment." />
-          <div className="space-x-5 mt-16">
+          <div className="sm:space-x-5 mt-16 flex flex-col sm:flex-row">
             <Link href="/signup" passHref>
               <Button
                 as="a"
@@ -32,7 +32,7 @@ export default function Home(): JSX.Element {
               </Button>
             </Link>
 
-            <Button className="py-2.5 px-9 text-lg" variant="secondary">
+            <Button className="py-2.5 px-9 text-lg mt-3.5 sm:mt-0" variant="secondary">
               Learn More
             </Button>
           </div>
@@ -53,10 +53,7 @@ export default function Home(): JSX.Element {
 
 function Heading(props: { title: string }): JSX.Element {
   return (
-    <span
-      className="font-extrabold text-black-normal"
-      style={{ fontSize: "8.8rem", lineHeight: "1.05" }}
-    >
+    <span className="font-extrabold text-black-normal lg:text-10xl md:text-9xl text-vw">
       {props.title}
     </span>
   );

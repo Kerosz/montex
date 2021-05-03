@@ -185,6 +185,16 @@ export default function Navbar({ variant = "base", withBorder }: NavbarProps): J
           <div className="sm:space-x-6 space-x-2">
             <Button
               as={Link}
+              href="/pricing"
+              variant="slim"
+              className="py-1.5 px-2 text-gray-500 hover:text-black-normal"
+              title="Pricing"
+            >
+              Pricing
+            </Button>
+
+            <Button
+              as={Link}
               href="/login"
               variant="secondary"
               className="py-1.5 px-4"
