@@ -42,4 +42,10 @@ export type SiteData = {
 
 export type Component = string | JSXElementConstructor<any>;
 
+export type ListData = {
+  label: string;
+  link?: string;
+  external?: boolean;
+};
+
 export interface SvgIcon extends SVGAttributes<HTMLOrSVGElement> {}

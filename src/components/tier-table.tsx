@@ -7,6 +7,7 @@ import Button from "@/components/ui/button";
 import Link from "@components/ui/link";
 // types
 import type { ReactNode } from "react";
+import type { ListData } from "@/types";
 
 enum ColorScheme {
   black,
@@ -25,7 +26,7 @@ export interface OptionProps {
   subTitle: string;
   price?: string | number;
   customPrice?: string | number;
-  featureData: Array<string>;
+  featureData: Array<ListData>;
   buttonLabel: string;
   buttonLink: string;
   colorScheme?: keyof typeof ColorScheme;

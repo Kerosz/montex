@@ -1,6 +1,14 @@
 export default [
-  "connect with social accounts",
-  "1 custom domain",
-  "30 internal routes",
-  "basic moderation tools",
+  {
+    label: "connect with social accounts",
+  },
+  {
+    label: "1 custom domain",
+  },
+  {
+    label: "30 internal routes",
+  },
+  {
+    label: "basic moderation tools",
+  },
 ];
