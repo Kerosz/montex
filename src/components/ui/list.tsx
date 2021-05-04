@@ -1,11 +1,13 @@
 // packages
 import cn from "classnames";
+// components
+import Link from "@components/ui/link";
 // types
-import type { Component } from "@/types";
+import type { Component, ListData } from "@/types";
 import type { ComponentProps } from "react";
 
 export interface ListProps extends ComponentProps<"ul"> {
-  data: Array<string>;
+  data: Array<ListData>;
   title?: string;
   customIcon?: Component;
   titleClass?: string;
@@ -44,10 +46,19 @@ export default function List({
   return (
     <ul className={rootClass} {...rest}>
       <li className={listTitleClass}>{title}</li>
-      {data.map((entry, idx) => (
-        <li key={`name_${entry}-${idx}`} className={listItemClass}>
-          {IconEl && <IconEl className="w-5 text-gray-500 pt-1 mr-1" />}
-          {entry}
+      {data.map(({ link, label, external }, idx) => (
+        <li key={`name_${label}-${idx}`} className={listItemClass}>
+          {link ? (
+            <Link href={link} external={external} className="hover:underline">
+              {IconEl && <IconEl className="w-5 text-gray-500 pt-1 mr-1" />}
+              {label}
+            </Link>
+          ) : (
+            <>
+              {IconEl && <IconEl className="w-5 text-gray-500 pt-1 mr-1" />}
+              {label}
+            </>
+          )}
         </li>
       ))}
     </ul>

@@ -1,6 +1,14 @@
 export default [
-  "connect with social accounts",
-  "5 custom domains",
-  "60 internal routes / site",
-  "advance moderation tools",
+  {
+    label: "connect with social accounts",
+  },
+  {
+    label: "5 custom domains",
+  },
+  {
+    label: "60 internal routes / site",
+  },
+  {
+    label: "advance moderation tools",
+  },
 ];
