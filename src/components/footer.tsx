@@ -11,6 +11,8 @@ import { Github, Twitter } from "./icons";
 import companyList from "@data/footer/company";
 import devList from "@data/footer/developers";
 import legalList from "@data/footer/legal";
+import languageList from "@data/footer/language";
+import themeList from "@data/footer/theme";
 
 export default function Footer() {
   return (
@@ -23,14 +25,17 @@ export default function Footer() {
                 <Image src="/images/logo-full.png" width={131} height={25} />
               </Link>
 
-              <p className="text-lg my-4 text-gray-600">
+              <p className="text-lg mt-4 text-gray-600">
                 The easiest way to add comments or reviews to your blog or personal website.
               </p>
 
-              <Select />
+              <div className="flex flex-wrap">
+                <Select title="Language" data={languageList} className="mr-5 mt-4" />
+                <Select title="Theme" data={themeList} className="mt-4" />
+              </div>
             </div>
 
-            <div className="grid sm:grid-cols-3 grid-cols-1 md:gap-7 sm:gap-16 gap-8 w-full md:mt-0 mt-6">
+            <div className="grid sm:grid-cols-3 grid-cols-1 md:gap-7 sm:gap-16 gap-8 w-full md:mt-0 sm:mt-10 mt-8">
               <List title="Company" data={companyList} withSpace={false} />
               <List title="Developers" data={devList} withSpace={false} />
               <List title="Legal" data={legalList} withSpace={false} />

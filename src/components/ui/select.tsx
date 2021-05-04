@@ -3,39 +3,52 @@ import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 import cn from "classnames";
+// types
+import type { ComponentProps } from "react";
 
-const people = [
-  {
-    id: 1,
-    name: "English",
-    avatar: "",
-  },
-  {
-    id: 2,
-    name: "Romanian",
-    avatar: "",
-  },
-];
+type SelectData = {
+  id: string | number;
+  name: string;
+  avatar: string;
+};
 
-export interface SelectProps {
+export interface SelectProps extends ComponentProps<"div"> {
+  data: Array<SelectData>;
   title?: string;
+  titleClass?: string;
+  buttonClass?: string;
+  optionsClass?: string;
   withIcon?: boolean;
 }
 
-export default function Select({ title, withIcon = false }: SelectProps) {
-  const [selected, setSelected] = useState(people[0]);
+export default function Select({
+  data,
+  title,
+  titleClass,
+  buttonClass,
+  optionsClass,
+  withIcon = false,
+  ...rest
+}: SelectProps) {
+  const [selected, setSelected] = useState(data[0]);
+
+  const titleRootClass = cn("block text-black-light font-semibold", titleClass);
+  const buttonRootClass = cn(
+    "relative w-full min-w-[130px] bg-white-normal border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-0 focus:border-black-normal sm:text-sm",
+    buttonClass
+  );
+  const optionsRootClass = cn(
+    "absolute z-10 mt-1 w-full min-w-min bg-white-normal shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black-normal ring-opacity-20 overflow-auto focus:outline-none sm:text-sm",
+    optionsClass
+  );
 
   return (
     <Listbox value={selected} onChange={setSelected}>
       {({ open }) => (
-        <>
-          {title && (
-            <Listbox.Label className="block text-black-light mb-2 font-semibold">
-              {title}
-            </Listbox.Label>
-          )}
-          <div className="mt-1 relative">
-            <Listbox.Button className="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-0 focus:border-black-normal sm:text-sm">
+        <div {...rest}>
+          {title && <Listbox.Label className={titleRootClass}>{title}</Listbox.Label>}
+          <div className="mt-2 relative">
+            <Listbox.Button className={buttonRootClass}>
               <span className="flex items-center">
                 {withIcon && (
                   <img
@@ -58,27 +71,24 @@ export default function Select({ title, withIcon = false }: SelectProps) {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Listbox.Options
-                static
-                className="absolute z-10 mt-1 w-full bg-white-normal shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black-normal ring-opacity-20 overflow-auto focus:outline-none sm:text-sm"
-              >
-                {people.map((person) => (
+              <Listbox.Options static className={optionsRootClass}>
+                {data.map((entry) => (
                   <Listbox.Option
-                    key={person.id}
+                    key={entry.id}
                     className={({ active }) =>
                       cn(
                         active ? "text-black-normal bg-gray-100" : "text-gray-500",
                         "cursor-default select-none relative py-2 pl-3 pr-9"
                       )
                     }
-                    value={person}
+                    value={entry}
                   >
                     {({ selected, active }) => (
                       <>
                         <div className="flex items-center">
                           {withIcon && (
                             <img
-                              src={person.avatar}
+                              src={entry.avatar}
                               alt=""
                               className="flex-shrink-0 h-6 w-6 rounded-full"
                             />
@@ -89,7 +99,7 @@ export default function Select({ title, withIcon = false }: SelectProps) {
                               "ml-3 block truncate"
                             )}
                           >
-                            {person.name}
+                            {entry.name}
                           </span>
                         </div>
 
@@ -110,7 +120,7 @@ export default function Select({ title, withIcon = false }: SelectProps) {
               </Listbox.Options>
             </Transition>
           </div>
-        </>
+        </div>
       )}
     </Listbox>
   );
