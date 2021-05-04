@@ -1,10 +1,9 @@
 // packages
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import Head from "next/head";
 import Image from "next/image";
 // components
-import Navbar from "@/components/navbar";
+import BaseLayout from "@components/layouts/base";
 import Button from "@components/ui/button";
 import Container from "@components/ui/contaienr";
 import Link from "@components/ui/link";
@@ -29,42 +28,39 @@ export default function Dashboard(): JSX.Element | null {
   }, [user]);
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <Head>
-        <title>Dashboard - Montex</title>
-      </Head>
-      <Navbar variant="dashboard" />
+    <BaseLayout title="Dashboard" navbarProps={{ variant: "dashboard" }}>
+      <div className="bg-gray-100 pb-6">
+        {user && (
+          <>
+            <section className="pt-10 pb-20 bg-gray-50 border-b border-gray-200">
+              <Container className="flex justify-between items-center">
+                <div className="flex items-center">
+                  <Link href="/account" title={user.username as string}>
+                    <Image
+                      src={user.photo_url as string}
+                      width={100}
+                      height={100}
+                      className="rounded-full"
+                    />
+                  </Link>
+                  <h3 className="text-4xl font-semibold text-black-normal ml-8">{user.username}</h3>
+                  <span className="bg-gray-50 border border-gray-300 rounded-xl px-1.5 py-0.5 text-xs uppercase ml-2.5 mt-2">
+                    {user.membership_plan}
+                  </span>
+                </div>
 
-      {user && (
-        <>
-          <section className="pt-10 pb-20 bg-gray-50 border-b border-gray-200">
-            <Container className="flex justify-between items-center">
-              <div className="flex items-center">
-                <Link href="/account" title={user.username as string}>
-                  <Image
-                    src={user.photo_url as string}
-                    width={100}
-                    height={100}
-                    className="rounded-full"
-                  />
-                </Link>
-                <h3 className="text-4xl font-semibold text-black-normal ml-8">{user.username}</h3>
-                <span className="bg-gray-50 border border-gray-300 rounded-xl px-1.5 py-0.5 text-xs uppercase ml-2.5 mt-2">
-                  {user.membership_plan}
-                </span>
-              </div>
+                <Button className="h-9 px-8 font-medium text-sm" onClick={onOpen}>
+                  New Site
+                </Button>
+              </Container>
+            </section>
 
-              <Button className="h-9 px-8 font-medium text-sm" onClick={onOpen}>
-                New Site
-              </Button>
-            </Container>
-          </section>
+            <Panel userId={user.uid} onOpen={onOpen} />
 
-          <Panel userId={user.uid} onOpen={onOpen} />
-
-          <AddSite isOpen={isOpen} onClose={onClose} />
-        </>
-      )}
-    </div>
+            <AddSite isOpen={isOpen} onClose={onClose} />
+          </>
+        )}
+      </div>
+    </BaseLayout>
   );
 }

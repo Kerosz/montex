@@ -20,7 +20,7 @@ enum Variant {
   dashboard,
 }
 
-interface NavbarProps {
+export interface NavbarProps {
   variant?: keyof typeof Variant;
   withBorder?: boolean;
   children?: ReactNode;

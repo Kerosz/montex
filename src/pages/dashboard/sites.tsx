@@ -2,10 +2,9 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { PlusSmIcon } from "@heroicons/react/outline";
-import Head from "next/head";
 import useSWR from "swr";
 // components
-import Navbar from "@components/navbar";
+import BaseLayout from "@components/layouts/base";
 import Container from "@components/ui/contaienr";
 import Button from "@components/ui/button";
 import AddSite from "@components/site/add-site";
@@ -39,32 +38,30 @@ export default function Sites(): JSX.Element {
   }, [user]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Head>
-        <title>Sites - Dashboard - Montex</title>
-      </Head>
-      <Navbar variant="dashboard" />
-      {user && (
-        <section className="py-8">
-          <Container>
-            <div className="flex items-center">
-              <Search />
+    <BaseLayout title="Sites - Dashboard" navbarProps={{ variant: "dashboard" }}>
+      <div className="min-h-screen bg-gray-50">
+        {user && (
+          <section className="py-8">
+            <Container>
+              <div className="flex items-center">
+                <Search />
 
-              <Button
-                className="flex items-center h-10 pl-4 sm:pr-6 pr-4 font-medium"
-                onClick={onOpen}
-              >
-                <PlusSmIcon className="w-5 mt-0.5 sm:mr-1.5" />
-                <span className="sm:block hidden">New Site</span>
-              </Button>
+                <Button
+                  className="flex items-center h-10 pl-4 sm:pr-6 pr-4 font-medium"
+                  onClick={onOpen}
+                >
+                  <PlusSmIcon className="w-5 mt-0.5 sm:mr-1.5" />
+                  <span className="sm:block hidden">New Site</span>
+                </Button>
 
-              <AddSite isOpen={isOpen} onClose={onClose} />
-            </div>
+                <AddSite isOpen={isOpen} onClose={onClose} />
+              </div>
 
-            <Panel data={data} onOpen={onOpen} />
-          </Container>
-        </section>
-      )}
-    </div>
+              <Panel data={data} onOpen={onOpen} />
+            </Container>
+          </section>
+        )}
+      </div>
+    </BaseLayout>
   );
 }

@@ -1,12 +1,11 @@
 // packages
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import Head from "next/head";
 // components
+import BaseLayout from "@components/layouts/base";
 import Container from "@components/ui/contaienr";
 import Link from "@components/ui/link";
 import SigningForm from "@components/signing-form";
-import Navbar from "@components/navbar";
 // context
 import { useAuth } from "@/context/auth";
 
@@ -19,13 +18,7 @@ export default function Login(): JSX.Element {
   }, [user]);
 
   return (
-    <>
-      <Head>
-        <title>Login - Montex</title>
-      </Head>
-
-      <Navbar withBorder />
-
+    <BaseLayout title="Login" navbarProps={{ withBorder: true }}>
       <Container className="py-16" maxW="max-w-md">
         <h1 className="text-4xl text-center font-bold -mb-4">Login to Montex</h1>
         <SigningForm onSubmit={signInWithEmailAndPassword} />
@@ -36,6 +29,6 @@ export default function Login(): JSX.Element {
           </Link>
         </p>
       </Container>
-    </>
+    </BaseLayout>
   );
 }

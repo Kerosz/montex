@@ -2,13 +2,12 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { ArrowNarrowRightIcon } from "@heroicons/react/solid";
-import Head from "next/head";
 // components
+import BaseLayout from "@components/layouts/base";
 import Container from "@components/ui/contaienr";
 import Link from "@components/ui/link";
 import Button from "@/components/ui/button";
 import Accordion from "@/components/ui/accordion";
-import Navbar from "@components/navbar";
 import TierTable from "@/components/tier-table";
 // context
 import { useAuth } from "@/context/auth";
@@ -27,14 +26,8 @@ export default function Pricing(): JSX.Element {
   }, [user]);
 
   return (
-    <>
-      <Head>
-        <title>Pricing - Montex</title>
-      </Head>
-
-      <Navbar withBorder />
-
-      <section className="pt-16 pb-20 bg-gray-50 border-b border-gray-200">
+    <BaseLayout title="Pricing" navbarProps={{ withBorder: true }}>
+      <section className="pt-16 pb-20 bg-gray-50">
         <Container>
           <h1 className="sm:text-6xl text-5xl font-bold text-black-normal text-center">
             Add. Embed. Comment.
@@ -137,6 +130,6 @@ export default function Pricing(): JSX.Element {
           <Accordion data={faq} />
         </Container>
       </section>
-    </>
+    </BaseLayout>
   );
 }
