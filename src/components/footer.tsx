@@ -17,8 +17,8 @@ export default function Footer() {
     <footer>
       <div className="border-t border-b border-gray-200 py-16">
         <Container>
-          <div className="grid grid-cols-5 gap-10">
-            <div className="flex flex-col col-span-2 w-11/12">
+          <div className="flex md:flex-row flex-col xl:space-x-20 lg:space-x-14 md:space-x-8">
+            <div className="flex flex-col xl:max-w-sm md:max-w-xs max-w-sm">
               <Link href="/" title="Montex Branding" fixPosition>
                 <Image src="/images/logo-full.png" width={131} height={25} />
               </Link>
@@ -30,17 +30,19 @@ export default function Footer() {
               <Select />
             </div>
 
-            <List title="Company" data={companyList} withSpace={false} />
-            <List title="Developers" data={devList} withSpace={false} />
-            <List title="Legal" data={legalList} withSpace={false} />
+            <div className="grid sm:grid-cols-3 grid-cols-1 md:gap-7 sm:gap-16 gap-8 w-full md:mt-0 mt-6">
+              <List title="Company" data={companyList} withSpace={false} />
+              <List title="Developers" data={devList} withSpace={false} />
+              <List title="Legal" data={legalList} withSpace={false} />
+            </div>
           </div>
         </Container>
       </div>
 
       <div className="py-6 bg-gray-100">
-        <Container className="flex justify-between">
-          <p className="text-gray-500">
-            ©{format(Date.now(), "yyyy")} Montex® Inc. All Rights Reserved.
+        <Container className="flex sm:flex-row flex-col-reverse justify-between">
+          <p className="text-gray-500 sm:mt-0 mt-4">
+            ©{format(Date.now(), "yyyy")} Montex® - All Rights Reserved.
           </p>
 
           <div className="flex space-x-5">
