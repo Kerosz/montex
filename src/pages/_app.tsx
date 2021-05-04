@@ -1,3 +1,5 @@
+// components
+import Head from "@components/head";
 // context
 import AuthProvider from "@/context/auth";
 // types
@@ -7,8 +9,11 @@ import "@/styles/tailwind.css";
 
 export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   return (
-    <AuthProvider>
-      <Component {...pageProps} />
-    </AuthProvider>
+    <>
+      <Head />
+      <AuthProvider>
+        <Component {...pageProps} />
+      </AuthProvider>
+    </>
   );
 }

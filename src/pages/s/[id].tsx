@@ -1,9 +1,8 @@
 // packages
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import Head from "next/head";
 // components
-import Navbar from "@components/navbar";
+import BaseLayout from "@components/layouts/base";
 import Container from "@components/ui/contaienr";
 import Button from "@components/ui/button";
 import Link from "@components/ui/link";
@@ -57,21 +56,18 @@ export default function Sites({ data }: SitesProps): JSX.Element {
   }, [user]);
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <Head>
-        <title>Sites - Dashboard - Montex</title>
-      </Head>
-      <Navbar variant="dashboard" />
+    <BaseLayout title={`Sites - ${data.name}`} navbarProps={{ variant: "dashboard" }}>
+      <div className="min-h-screen bg-gray-100">
+        <section className="py-12 bg-gray-50 border-b border-gray-200">
+          <Container className="flex justify-between items-center">
+            <h3 className="text-4xl font-semibold text-black-normal ml-8">{data.name}</h3>
 
-      <section className="py-12 bg-gray-50 border-b border-gray-200">
-        <Container className="flex justify-between items-center">
-          <h3 className="text-4xl font-semibold text-black-normal ml-8">{data.name}</h3>
-
-          <Button as={Link} href={data.url} external className="px-8 py-1.5 font-semibold">
-            Visit
-          </Button>
-        </Container>
-      </section>
-    </div>
+            <Button as={Link} href={data.url} external className="px-8 py-1.5 font-semibold">
+              Visit
+            </Button>
+          </Container>
+        </section>
+      </div>
+    </BaseLayout>
   );
 }
