@@ -1,18 +1,17 @@
 // packages
 import { DocumentAddIcon } from "@heroicons/react/outline";
 // components
-import Container from "@components/ui/contaienr";
 import Button from "@/components/ui/button";
 import Card from "./card";
 // types
 import type { SiteData } from "@/types";
 
-export interface PanelProps {
+export interface ListProps {
   data: SiteData[] | undefined;
   onOpen: () => void;
 }
 
-export default function Panel({ data, onOpen }: PanelProps) {
+export default function List({ data, onOpen }: ListProps) {
   if (!data) {
     return <h1>Loading...</h1>;
   }

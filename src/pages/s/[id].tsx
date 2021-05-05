@@ -58,11 +58,23 @@ export default function Sites({ data }: SitesProps): JSX.Element {
   return (
     <BaseLayout title={`Sites - ${data.name}`} navbarProps={{ variant: "dashboard" }}>
       <div className="min-h-screen bg-gray-100">
-        <section className="py-12 bg-gray-50 border-b border-gray-200">
+        <section className="py-8 bg-gray-50 border-b border-gray-200">
           <Container className="flex justify-between items-center">
-            <h3 className="text-4xl font-semibold text-black-normal ml-8">{data.name}</h3>
+            <h3
+              className="text-4xl font-semibold text-black-normal cursor-default"
+              title="Site name"
+            >
+              {data.name}
+            </h3>
 
-            <Button as={Link} href={data.url} external className="px-8 py-1.5 font-semibold">
+            <Button
+              as={Link}
+              variant="primary"
+              size="medium"
+              href={data.url}
+              external
+              title={data.url}
+            >
               Visit
             </Button>
           </Container>
