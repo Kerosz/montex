@@ -65,12 +65,7 @@ export default function Panel({ userId, onOpen }: PanelProps) {
                   </span>
                 </Table.Td>
                 <Table.Td alignEnd style={{ width: "100px" }}>
-                  <Button
-                    as={Link}
-                    href={`/s/${entry.id}`}
-                    variant="secondary"
-                    className="px-4 py-1 text-sm"
-                  >
+                  <Button as={Link} href={`/s/${entry.id}`} variant="secondary" size="small">
                     Details
                   </Button>
                 </Table.Td>

@@ -29,7 +29,7 @@ export default function Dashboard(): JSX.Element | null {
 
   return (
     <BaseLayout title="Dashboard" navbarProps={{ variant: "dashboard" }}>
-      <div className="bg-gray-100 pb-6">
+      <div className="min-h-screen bg-gray-100">
         {user && (
           <>
             <section className="pt-10 pb-20 bg-gray-50 border-b border-gray-200">
@@ -49,7 +49,7 @@ export default function Dashboard(): JSX.Element | null {
                   </span>
                 </div>
 
-                <Button className="h-9 px-8 font-medium text-sm" onClick={onOpen}>
+                <Button variant="primary" className="h-9 px-8 font-medium text-sm" onClick={onOpen}>
                   New Site
                 </Button>
               </Container>

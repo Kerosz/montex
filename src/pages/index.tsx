@@ -23,19 +23,16 @@ export default function Home(): JSX.Element {
           <Heading title="Embed." />
           <Heading title="Comment." />
           <div className="sm:space-x-5 mt-16 flex flex-col sm:flex-row">
-            <Button
-              as={Link}
-              href="/signup"
-              className="text-lg border border-black-normal hover:border-black-light py-2.5 px-9"
-            >
+            <Button as={Link} href="/signup" variant="primary" size="large">
               Get Started
             </Button>
 
             <Button
               as={Link}
               href="/pricing"
-              className="py-2.5 px-9 text-lg mt-3.5 sm:mt-0"
               variant="secondary"
+              size="large"
+              className="mt-3.5 sm:mt-0"
             >
               Learn More
             </Button>

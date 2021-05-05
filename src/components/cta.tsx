@@ -19,8 +19,8 @@ export default function CallToAction() {
               <Button
                 as={Link}
                 href="/signup"
-                variant="slim"
-                className="flex justify-center items-center bg-black-normal text-white-normal hover:bg-black-light hover:text-gray-50 font-semibold h-12 px-7"
+                variant="primary"
+                className="flex justify-center items-center h-12 px-7"
               >
                 Get started
               </Button>
@@ -29,8 +29,8 @@ export default function CallToAction() {
               <Button
                 as={Link}
                 href="/pricing"
-                variant="slim"
-                className="flex justify-center items-center font-semibold h-12 px-7 text-gray-800 border border-gray-800 hover:text-secondary hover:border-secondary"
+                variant="outlined"
+                className="flex justify-center items-center h-12 px-7"
               >
                 Learn more
               </Button>
