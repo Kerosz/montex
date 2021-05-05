@@ -47,6 +47,7 @@ export default function Sites(): JSX.Element {
                 <Search />
 
                 <Button
+                  variant="primary"
                   className="flex items-center h-10 pl-4 sm:pr-6 pr-4 font-medium"
                   onClick={onOpen}
                 >

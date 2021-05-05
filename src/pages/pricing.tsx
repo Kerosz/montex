@@ -51,8 +51,8 @@ export default function Pricing(): JSX.Element {
               <Button
                 as={Link}
                 href="/signup"
-                variant="secondary"
-                className="py-3.5 px-6 flex justify-center items-center bg-gray-50 mt-8 text-gray-800 uppercase hover:border-gray-300 hover:shadow hover:bg-gray-100 hover:text-gray-700"
+                variant="modern"
+                className="py-3.5 px-6 flex justify-center items-center mt-8"
               >
                 Start growing with Montex
                 <ArrowNarrowRightIcon className="w-5 text-black-light ml-1.5 mt-1" />
@@ -71,8 +71,8 @@ export default function Pricing(): JSX.Element {
               </p>
 
               <Button
-                variant="secondary"
-                className="py-3.5 px-6 flex justify-center items-center bg-gray-50 mt-8 text-gray-800 uppercase hover:border-gray-300 hover:shadow hover:bg-gray-100 hover:text-gray-700"
+                variant="modern"
+                className="py-3.5 px-6 flex justify-center items-center mt-8"
               >
                 Talk to sales
                 <ArrowNarrowRightIcon className="w-5 text-black-light ml-1.5 mt-1" />

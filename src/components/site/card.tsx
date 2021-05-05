@@ -18,12 +18,7 @@ export default function Card({ data }: CardProps) {
           <Link href={`/s/${data.id}`}>{data.name}</Link>
         </h2>
         <div className="sm:space-x-3 sm:block flex flex-col text-center">
-          <Button
-            as={Link}
-            href={`/s/${data.id}`}
-            variant="secondary"
-            className="px-4 py-1 text-sm"
-          >
+          <Button as={Link} href={`/s/${data.id}`} variant="secondary" size="small">
             Manage
           </Button>
           <Button
@@ -31,7 +26,8 @@ export default function Card({ data }: CardProps) {
             href={data.url}
             external
             variant="secondary"
-            className="sm:mt-0 mt-1.5 px-4 py-1 text-sm"
+            size="small"
+            className="sm:mt-0 mt-1.5"
           >
             Visit
           </Button>

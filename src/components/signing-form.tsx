@@ -114,7 +114,7 @@ export default function SigningForm({ onSubmit }: EmailFormProps) {
             )}
           </div>
 
-          <Button type="submit" className="w-full py-2.5 flex justify-center items-center">
+          <Button type="submit" variant="primary" size="full">
             <MailIcon className="w-6 mr-2" />
             {isSubmitting ? "Loading..." : "Continue with Email"}
           </Button>
@@ -137,21 +137,18 @@ export default function SigningForm({ onSubmit }: EmailFormProps) {
 
   return (
     <div className="w-full mt-14">
-      <Button className="w-full py-2.5 flex justify-center items-center" onClick={signInWithGithub}>
+      <Button variant="primary" size="full" onClick={signInWithGithub}>
         <Github className="mr-2" />
         Continue with Github
       </Button>
-      <Button
-        variant="secondary"
-        className="w-full py-2.5 flex justify-center items-center bg-blue-500 mt-3.5 text-white-normal hover:text-gray-200"
-        onClick={signInWithTwitter}
-      >
+      <Button variant="twitter" size="full" className="mt-3.5" onClick={signInWithTwitter}>
         <Twitter className="mr-2" />
         Continue with Twitter
       </Button>
       <Button
         variant="secondary"
-        className="w-full py-2.5 flex justify-center items-center bg-gray-50 mt-3.5"
+        size="full"
+        className="bg-gray-50 mt-3.5"
         onClick={signInWithGoogle}
       >
         <Google className="mr-2" />

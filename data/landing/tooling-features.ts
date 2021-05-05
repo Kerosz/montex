@@ -4,7 +4,7 @@ export default {
   caption: "Plug and play",
   title: "Simple workflow",
   description:
-    "Implementing a feedback system into your website was never that easy. Montex allows you to do that in only a few steps.",
+    "Implementing a feedback system into your website was never that easy. Montex allows you to do all that in only a few steps.",
   list: [
     {
       name: "Add a new site",
@@ -15,11 +15,11 @@ export default {
     {
       name: "Embed it into your website",
       description:
-        "Using your guided system you can just embed it wherever you need it into your website and instantly have your feedback enabled.",
+        "Using our guided system you can just embed it wherever you need it and instantly have your feedback enabled.",
       icon: PuzzleIcon,
     },
     {
-      name: "Start commenting",
+      name: "Start interacting",
       description:
         "Add new comments, reviews, leave feedback or start a new discussion and much more, all handled for you.",
       icon: ChatAltIcon,

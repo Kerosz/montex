@@ -70,13 +70,13 @@ export default function Navbar({ variant = "base", withBorder }: NavbarProps): J
               style={{ width: "1px", height: "25px" }}
               className="bg-gray-300 transform rotate-30"
             />
-            <Button as={Link} href="/dashboard" variant="slim">
+            <Button as={Link} href="/dashboard" variant="slim" reset>
               Overview
             </Button>
-            <Button as={Link} href="/dashboard/sites" variant="slim">
+            <Button as={Link} href="/dashboard/sites" variant="slim" reset>
               Sites
             </Button>
-            <Button as={Link} href="/dashboard/activity" variant="slim">
+            <Button as={Link} href="/dashboard/activity" variant="slim" reset>
               Activity
             </Button>
           </div>
@@ -189,21 +189,16 @@ export default function Navbar({ variant = "base", withBorder }: NavbarProps): J
               variant="slim"
               className="py-1.5 px-2 text-gray-500 hover:text-black-normal"
               title="Pricing"
+              reset
             >
               Pricing
             </Button>
 
-            <Button
-              as={Link}
-              href="/login"
-              variant="secondary"
-              className="py-1.5 px-4"
-              title="Login"
-            >
+            <Button as={Link} href="/login" variant="secondary" size="normal" title="Login">
               Login
             </Button>
 
-            <Button as={Link} href="/signup" className="py-1.5 px-4" title="Sign up">
+            <Button as={Link} href="/signup" variant="primary" size="normal" title="Sign up">
               Sign up
             </Button>
           </div>
