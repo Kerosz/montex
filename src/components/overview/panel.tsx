@@ -38,7 +38,7 @@ export default function Panel({ userId, onOpen }: PanelProps) {
         {data.length === 0 && (
           <Empty
             addButton={
-              <Button className="h-10 px-6 font-semibold max-w-max mt-6" onClick={onOpen}>
+              <Button variant="primary" className="h-10 px-6 max-w-max mt-6" onClick={onOpen}>
                 Add First Site
               </Button>
             }
