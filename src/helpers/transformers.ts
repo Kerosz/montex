@@ -21,16 +21,16 @@ export function transformRawUser(rawUser: RawUser): AuthUser {
 // TODO: Needs type improvements
 export function transformRawSite(rawSite: RawSiteData, id: string | null = null, userId: string) {
   const urlRegex = new RegExp("http(s)?(:)?(//)?", "g");
-  const isUrl = urlRegex.test(rawSite.new_website);
+  const isUrl = urlRegex.test(rawSite.site_url);
 
   if (!isUrl) {
-    rawSite.new_website = "https://" + rawSite.new_website;
+    rawSite.site_url = "https://" + rawSite.site_url;
   }
 
-  const siteData: Partial<Omit<SiteData, "doc_id">> = {
+  const siteData: Partial<SiteData> = {
     user_id: userId,
     name: rawSite.name.toLowerCase().trim(),
-    url: rawSite.new_website.trim(),
+    url: rawSite.site_url.trim(),
     description: rawSite.description.trim(),
     created_at: Date.now(),
     updated_at: Date.now(),
@@ -38,6 +38,7 @@ export function transformRawSite(rawSite: RawSiteData, id: string | null = null,
 
   if (id) {
     siteData.id = id;
+    siteData.doc_id = id;
   }
 
   return siteData;

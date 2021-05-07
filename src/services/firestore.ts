@@ -41,6 +41,17 @@ export async function createNewSite(rawData: RawSiteData, userId: string): Promi
   return _DB.collection("sites").doc(id).set(newSite);
 }
 
+export async function updateSiteData(rawData: RawSiteData, siteId: string): Promise<void> {
+  const newSiteData = {
+    name: rawData.name.trim(),
+    url: rawData.site_url.trim(),
+    description: rawData.description.trim(),
+    updated_at: Date.now(),
+  };
+
+  return _DB.collection("sites").doc(siteId).update(newSiteData);
+}
+
 export async function getAllSitesByUserId(userId: string): Promise<SiteData[]> {
   const { docs } = await _DB.collection("sites").where("user_id", "==", userId).get();
 

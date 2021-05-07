@@ -25,7 +25,7 @@ export type AuthProvider =
 
 export type RawSiteData = {
   name: string;
-  new_website: string;
+  site_url: string;
   description: string;
 };
 
