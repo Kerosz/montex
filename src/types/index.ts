@@ -49,3 +49,7 @@ export type ListData = {
 };
 
 export interface SvgIcon extends SVGAttributes<HTMLOrSVGElement> {}
+
+export interface PageProps<T = {}> {
+  data: T;
+}

@@ -1,4 +1,5 @@
 // packages
+import { cloneElement, Children } from "react";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 // components
@@ -63,10 +64,12 @@ export default function Site({ children }: SiteProps): JSX.Element | null {
             </Button>
           </Container>
         </section>
-        <section className="py-6">
+        <section className="py-12">
           <Container className="flex">
             <Sidebar siteId={id} />
-            {children}
+            {cloneElement(children as JSX.Element, {
+              data,
+            })}
           </Container>
         </section>
       </div>

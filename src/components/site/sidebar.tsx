@@ -23,7 +23,7 @@ export default function Sidebar({ siteId }: SidebarProps) {
   };
 
   return (
-    <aside className="w-40 mr-14 flex flex-col sticky top-20 h-full">
+    <aside className="w-full max-w-[180px] mr-12 flex flex-col sticky top-20 h-full">
       {ROUTES.map(({ label, path, icon }) => {
         const active = isActive(label);
         const IconEl = icon;
