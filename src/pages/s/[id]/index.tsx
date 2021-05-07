@@ -1,8 +1,8 @@
 // components
 import SiteLayout from "@components/layouts/site";
 
-export default function SitePanel(): JSX.Element {
-  return <h1>Hello</h1>;
+export default function General(): JSX.Element {
+  return <h1>General</h1>;
 }
 
-SitePanel.Layout = SiteLayout;
+General.Layout = SiteLayout;

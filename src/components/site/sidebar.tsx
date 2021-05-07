@@ -14,6 +14,7 @@ export default function Sidebar({ siteId }: SidebarProps) {
   const routerPath = router.pathname;
 
   const isActive = (key: string): boolean => {
+    // Sets the "General" route/label as active for the main path "/s/[id]"
     if (routerPath.length === 7 && key === "General") return true;
 
     if (routerPath.includes(key.toLowerCase())) return true;
@@ -22,19 +23,20 @@ export default function Sidebar({ siteId }: SidebarProps) {
   };
 
   return (
-    <aside className="w-40 mr-14 flex flex-col">
-      {ROUTES.map(({ label, path }) => {
+    <aside className="w-40 mr-14 flex flex-col sticky top-20 h-full">
+      {ROUTES.map(({ label, path, icon }) => {
         const active = isActive(label);
+        const IconEl = icon;
 
         return (
           <Link
             key={label}
             href={`/s/${siteId}/${path}`}
             className={`py-2 ${
-              active ? "text-gray-900" : "text-gray-500"
-            } hover:text-black-light font-semibold`}
+              active ? "text-gray-900" : "text-gray-500 hover:text-black-light"
+            } font-semibold flex items-center`}
           >
-            {label}
+            <IconEl className="w-5 mr-1.5 mt-0.5" /> {label}
           </Link>
         );
       })}
