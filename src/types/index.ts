@@ -36,6 +36,9 @@ export type SiteData = {
   url: string;
   description: string;
   name: string;
+  comment_policy: string | undefined;
+  nsfw_content: boolean;
+  branding: boolean;
   created_at: number;
   updated_at: number;
 };

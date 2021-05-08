@@ -4,42 +4,47 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { mutate } from "swr";
 // components
 import SiteLayout from "@components/layouts/site";
+import Link from "@/components/ui/link";
 import Input from "@/components/ui/input";
 import Button from "@/components/ui/button";
+// hooks
+import { useAuth } from "@/context/auth";
 // helpers
-import { ADD_SITE_SCHEMA } from "@helpers/validations";
-// types
-import type { PageProps, RawSiteData, SiteData } from "@/types";
+import { UPDATE_SITE_SCHEMA } from "@helpers/validations";
 import { updateSiteData } from "@/services/firestore";
+// types
+import type { PageProps, SiteData } from "@/types";
 
 export default function General({ data }: PageProps<SiteData>): JSX.Element {
   const DEFAULT_FORM_VALUES = {
     name: data.name,
-    site_url: data.url,
+    url: data.url,
     description: data.description,
+    comment_policy: data.comment_policy,
+    nsfw_content: data.nsfw_content,
+    branding: data.branding,
   };
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting, touchedFields },
-  } = useForm<RawSiteData>({
+  } = useForm<SiteData>({
     defaultValues: DEFAULT_FORM_VALUES,
-    resolver: yupResolver(ADD_SITE_SCHEMA),
+    resolver: yupResolver(UPDATE_SITE_SCHEMA),
     mode: "all",
   });
+  const { user } = useAuth();
 
-  const onSubmitHandler = async (formData: RawSiteData) => {
-    if (
-      formData.name !== data.name ||
-      formData.site_url !== data.url ||
-      formData.description !== data.description
-    ) {
-      await updateSiteData(formData, data.id);
+  const isPaid = user?.membership_plan !== "hobby";
 
-      // Works for this use case, the formData needs to be transformed if new form values that don't match the DB keys are added in the future.
-      mutate(`/api/site/${data.id}`, { ...data, ...formData });
-    }
+  const onSubmitHandler = async (formData: SiteData) => {
+    if (!isPaid) formData.branding = true;
+
+    await updateSiteData(formData, data.id);
+
+    // Works for this use case, the formData needs to be transformed if new form values that don't match the DB keys are added in the future.
+    mutate(`/api/site/${data.id}`, { ...data, ...formData });
   };
 
   return (
@@ -57,17 +62,17 @@ export default function General({ data }: PageProps<SiteData>): JSX.Element {
       <div className="border-t border-b border-gray-200">
         <dl>
           <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <label htmlFor="site_url" className="text-sm font-medium text-gray-600">
+            <label htmlFor="url" className="text-sm font-medium text-gray-600">
               Site URL
             </label>
 
             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
               <Input
-                id="site_url"
+                id="url"
                 placeholder="My site name"
                 defaultValue={data.url}
                 readOnly
-                {...register("site_url")}
+                {...register("url")}
               />
             </dd>
           </div>
@@ -109,6 +114,90 @@ export default function General({ data }: PageProps<SiteData>): JSX.Element {
               {errors.description && touchedFields.description && (
                 <span role="alert" className="block text-sm text-secondary mt-1 pl-0.5">
                   {errors.description.message}
+                </span>
+              )}
+            </dd>
+          </div>
+
+          <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <label htmlFor="comment_policy" className="text-sm font-medium text-gray-600">
+              Comment Policy URL
+            </label>
+
+            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <Input
+                id="comment_policy"
+                placeholder="URL for comment policy"
+                defaultValue={data.comment_policy}
+                {...register("comment_policy")}
+              />
+              {errors.comment_policy && touchedFields.comment_policy && (
+                <span role="alert" className="block text-sm text-secondary mt-1 pl-0.5">
+                  {errors.comment_policy.message}
+                </span>
+              )}
+            </dd>
+          </div>
+
+          <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <label htmlFor="nsfw_content" className="text-sm font-medium text-gray-600">
+              Adult Content
+            </label>
+
+            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <div className="flex items-center">
+                <Input
+                  type="checkbox"
+                  id="nsfw_content"
+                  defaultChecked={data.nsfw_content}
+                  className="w-4 h-4"
+                  {...register("nsfw_content")}
+                />
+                <label htmlFor="nsfw_content" className="ml-2 text-gray-600">
+                  Flag my site as adult content or NSFW
+                </label>
+              </div>
+              {errors.nsfw_content && touchedFields.nsfw_content && (
+                <span role="alert" className="block text-sm text-secondary mt-1 pl-0.5">
+                  {errors.nsfw_content.message}
+                </span>
+              )}
+            </dd>
+          </div>
+
+          <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <label htmlFor="branding" className="text-sm font-medium text-gray-600">
+              Montex Branding
+            </label>
+
+            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <div className="flex items-center">
+                <Input
+                  type="checkbox"
+                  id="branding"
+                  defaultChecked={data.branding}
+                  className="w-4 h-4"
+                  disabled={!isPaid}
+                  {...register("branding")}
+                />
+                <label
+                  htmlFor="branding"
+                  className={`ml-2 text-gray-500 ${!isPaid && "font-semibold cursor-not-allowed"}`}
+                >
+                  Show Montex branding in your comments section
+                </label>
+              </div>
+              {!isPaid && (
+                <p className="mt-1.5 text-xs text-gray-600">
+                  This feature is only available in the PRO plan.{" "}
+                  <Link href="#" className="text-blue-500 hover:underline">
+                    Upgrade
+                  </Link>
+                </p>
+              )}
+              {errors.branding && touchedFields.branding && (
+                <span role="alert" className="block text-sm text-secondary mt-1 pl-0.5">
+                  {errors.branding.message}
                 </span>
               )}
             </dd>
