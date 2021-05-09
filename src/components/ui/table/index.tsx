@@ -1,9 +1,13 @@
 // packages
-import cn from "classnames";
+import { useMemo, useState } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
-import { TableContext, useTable, Data } from "./table-context";
+import cn from "classnames";
+// components
+import Button from "../button";
+import { TableContext, useTable } from "./table-context";
 // types
-import { ReactNode, ComponentPropsWithoutRef, useMemo } from "react";
+import type { ReactNode, ComponentPropsWithoutRef } from "react";
+import type { Data } from "./table-context";
 
 // TODO: Convert components into "withRef" (forwardRef)
 
@@ -11,6 +15,7 @@ export interface TableProps extends ComponentPropsWithoutRef<"table"> {
   tableData: Data;
   children?: ReactNode;
   withPagination?: boolean;
+  rowsPerPage?: number;
 }
 
 export interface THeadProps extends ComponentPropsWithoutRef<"thead"> {}
@@ -20,7 +25,7 @@ export interface THeadCellProps extends ComponentPropsWithoutRef<"th"> {
 }
 
 export interface TBodyProps extends ComponentPropsWithoutRef<"tbody"> {
-  children?: (context: { tableData: Data }) => ReactNode;
+  children?: (context: { rowData: Data }) => ReactNode;
 }
 
 export interface TRowProps extends ComponentPropsWithoutRef<"tr"> {}
@@ -56,11 +61,13 @@ function TableHeadCell({ children, readerOnly, className, ...rest }: THeadCellPr
 }
 
 function TableBody({ children, ...rest }: TBodyProps) {
-  const { tableData } = useTable();
+  const { rowData, page, rowsPerPage, withPagination } = useTable();
+
+  const slicedData = rowData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
   return (
     <tbody className="bg-white-normal divide-y divide-gray-200" {...rest}>
-      {children ? children({ tableData }) : null}
+      {children ? children({ rowData: withPagination ? slicedData : rowData }) : null}
     </tbody>
   );
 }
@@ -84,6 +91,55 @@ function TableDataCell({ className, alignEnd, fixedWidth, ...rest }: TDataCellPr
 }
 
 function TablePagination({ pageNumberButtonClass, className, ...rest }: TPagination) {
+  const { rowCount, setPage, rowsPerPage, page } = useTable();
+
+  const startBound = page === 0;
+  const endBound = page === Math.ceil(rowCount / rowsPerPage - 1);
+  const showResultStart = page === 0 ? page * rowsPerPage + 1 : page * rowsPerPage;
+  const showResultEnd =
+    page * rowsPerPage + rowsPerPage <= rowCount ? page * rowsPerPage + rowsPerPage : rowCount;
+
+  const generatePageNumbers = () => {
+    const totalPages = Math.ceil(rowCount / rowsPerPage);
+    const totalPageArray = Array.from({ length: totalPages }, (_, i) => i);
+
+    if (totalPages <= 6) {
+      return totalPageArray.map((pageNumber) => (
+        <Button
+          key={pageNumber}
+          variant="slim"
+          className={numberButtonClass}
+          onClick={() => setPage(pageNumber)}
+          disabled={page === pageNumber}
+          reset
+        >
+          {pageNumber + 1}
+        </Button>
+      ));
+    } else if (totalPages > 6) {
+      const slicedPageArray = [...totalPageArray.slice(0, 3), NaN, ...totalPageArray.slice(-3)];
+
+      return slicedPageArray.map((pageNumber) =>
+        Number.isNaN(pageNumber) ? (
+          <span key={pageNumber} className={numberButtonClass}>
+            ...
+          </span>
+        ) : (
+          <Button
+            key={pageNumber}
+            variant="slim"
+            className={numberButtonClass}
+            onClick={() => setPage(pageNumber)}
+            disabled={page === pageNumber}
+            reset
+          >
+            {pageNumber + 1}
+          </Button>
+        )
+      );
+    }
+  };
+
   const numberButtonClass = cn(
     {
       "items-center px-4 py-2 border border-gray-300 bg-white-normal text-sm font-medium text-gray-700 hover:bg-gray-50": !pageNumberButtonClass,
@@ -91,7 +147,6 @@ function TablePagination({ pageNumberButtonClass, className, ...rest }: TPaginat
     },
     className
   );
-  const hiddenNumberButtonClass = cn("hidden md:inline-flex", numberButtonClass);
 
   return (
     <div
@@ -99,19 +154,30 @@ function TablePagination({ pageNumberButtonClass, className, ...rest }: TPaginat
       {...rest}
     >
       <div className="flex-1 flex justify-between sm:hidden">
-        <a href="#" className={numberButtonClass}>
+        <Button
+          variant="slim"
+          className={numberButtonClass}
+          onClick={() => setPage((page) => page - 1)}
+          disabled={startBound}
+          reset
+        >
           Previous
-        </a>
-        <a href="#" className={numberButtonClass}>
+        </Button>
+        <Button
+          variant="slim"
+          className={numberButtonClass}
+          onClick={() => setPage((page) => page + 1)}
+          disabled={endBound}
+        >
           Next
-        </a>
+        </Button>
       </div>
       <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
         <div>
           <p className="text-sm text-gray-700">
-            Showing <span className="font-semibold">1</span> to{" "}
-            <span className="font-semibold">10</span> of <span className="font-semibold">97</span>{" "}
-            results
+            Showing <span className="font-semibold">{showResultStart}</span> to{" "}
+            <span className="font-semibold">{showResultEnd}</span> of{" "}
+            <span className="font-semibold">{rowCount}</span> results
           </p>
         </div>
         <div>
@@ -119,39 +185,27 @@ function TablePagination({ pageNumberButtonClass, className, ...rest }: TPaginat
             className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
             aria-label="Pagination"
           >
-            <a
-              href="#"
+            <Button
+              variant="slim"
               className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white-normal text-sm font-medium text-gray-500 hover:bg-gray-50"
+              onClick={() => setPage((page) => page - 1)}
+              disabled={startBound}
+              reset
             >
               <span className="sr-only">Previous</span>
               <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
-            </a>
-            <a href="#" className={numberButtonClass}>
-              1
-            </a>
-            <a href="#" className={numberButtonClass}>
-              2
-            </a>
-            <a href="#" className={hiddenNumberButtonClass}>
-              3
-            </a>
-            <span className={numberButtonClass}>...</span>
-            <a href="#" className={hiddenNumberButtonClass}>
-              8
-            </a>
-            <a href="#" className={numberButtonClass}>
-              9
-            </a>
-            <a href="#" className={numberButtonClass}>
-              10
-            </a>
-            <a
-              href="#"
+            </Button>
+            {generatePageNumbers()}
+            <Button
+              variant="slim"
               className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white-normal text-sm font-medium text-gray-500 hover:bg-gray-50"
+              onClick={() => setPage((page) => page + 1)}
+              disabled={endBound}
+              reset
             >
               <span className="sr-only">Next</span>
               <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-            </a>
+            </Button>
           </nav>
         </div>
       </div>
@@ -162,15 +216,32 @@ function TablePagination({ pageNumberButtonClass, className, ...rest }: TPaginat
 export default function Table({
   children,
   withPagination = false,
+  rowsPerPage = 4,
   tableData,
   ...rest
 }: TableProps): JSX.Element {
+  const [data, setData] = useState<Data>(tableData);
+  const [page, setPage] = useState<number>(0);
+  const [rowsPerPageState, setRowsPerPage] = useState<number>(rowsPerPage);
+
+  const tableProvider = useMemo(
+    () => ({
+      rowData: data,
+      rowCount: tableData.length,
+      setData,
+      page,
+      rowsPerPage: rowsPerPageState,
+      setPage,
+      setRowsPerPage,
+      withPagination,
+    }),
+    [tableData, page, rowsPerPage]
+  );
+
   const wrapperClass = cn("shadow overflow-hidden", {
     "sm:rounded-t-lg": withPagination,
     "sm:rounded-lg border-b border-gray-200": !withPagination,
   });
-
-  const tableProvider = useMemo(() => ({ tableData, withPagination }), [tableData, withPagination]);
 
   return (
     <TableContext.Provider value={tableProvider}>
@@ -185,6 +256,7 @@ export default function Table({
           </div>
         </div>
       </div>
+      {withPagination && <TablePagination />}
     </TableContext.Provider>
   );
 }
@@ -194,4 +266,3 @@ Table.HeadCell = TableHeadCell;
 Table.Body = TableBody;
 Table.Row = TableRow;
 Table.DataCell = TableDataCell;
-Table.Pagination = TablePagination;

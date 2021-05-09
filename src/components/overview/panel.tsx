@@ -58,47 +58,44 @@ export default function Panel({ userId, onOpen }: PanelProps) {
           />
         )}
         {data.length > 0 && (
-          <>
-            <Table tableData={data} withPagination>
-              <Table.Head>
-                <Table.HeadCell>Name</Table.HeadCell>
-                <Table.HeadCell>Site</Table.HeadCell>
-                <Table.HeadCell>Description</Table.HeadCell>
-                <Table.HeadCell>Created</Table.HeadCell>
-                <Table.HeadCell readerOnly>View</Table.HeadCell>
-              </Table.Head>
-              <Table.Body>
-                {({ tableData }) =>
-                  tableData.map((entry) => (
-                    <Table.Row key={entry.id || entry.name}>
-                      <Table.DataCell>
-                        <Link href={`/s/${entry.id}`} className="font-semibold text-black-normal">
-                          {entry.name}
-                        </Link>
-                      </Table.DataCell>
-                      <Table.DataCell>
-                        <Link href={entry.url} external className="hover:underline">
-                          {entry.url}
-                        </Link>
-                      </Table.DataCell>
-                      <Table.DataCell fixedWidth>{entry.description}</Table.DataCell>
-                      <Table.DataCell>
-                        <span className="cursor-default">
-                          {formatDistanceStrict(entry.created_at, Date.now(), { addSuffix: true })}
-                        </span>
-                      </Table.DataCell>
-                      <Table.DataCell>
-                        <Button as={Link} href={`/s/${entry.id}`} variant="secondary" size="small">
-                          Details
-                        </Button>
-                      </Table.DataCell>
-                    </Table.Row>
-                  ))
-                }
-              </Table.Body>
-            </Table>
-            <Table.Pagination />
-          </>
+          <Table tableData={data} withPagination>
+            <Table.Head>
+              <Table.HeadCell>Name</Table.HeadCell>
+              <Table.HeadCell>Site</Table.HeadCell>
+              <Table.HeadCell>Description</Table.HeadCell>
+              <Table.HeadCell>Created</Table.HeadCell>
+              <Table.HeadCell readerOnly>View</Table.HeadCell>
+            </Table.Head>
+            <Table.Body>
+              {({ rowData }) =>
+                rowData.map((entry) => (
+                  <Table.Row key={entry.id || entry.name}>
+                    <Table.DataCell>
+                      <Link href={`/s/${entry.id}`} className="font-semibold text-black-normal">
+                        {entry.name}
+                      </Link>
+                    </Table.DataCell>
+                    <Table.DataCell>
+                      <Link href={entry.url} external className="hover:underline">
+                        {entry.url}
+                      </Link>
+                    </Table.DataCell>
+                    <Table.DataCell fixedWidth>{entry.description}</Table.DataCell>
+                    <Table.DataCell>
+                      <span className="cursor-default">
+                        {formatDistanceStrict(entry.created_at, Date.now(), { addSuffix: true })}
+                      </span>
+                    </Table.DataCell>
+                    <Table.DataCell>
+                      <Button as={Link} href={`/s/${entry.id}`} variant="secondary" size="small">
+                        Details
+                      </Button>
+                    </Table.DataCell>
+                  </Table.Row>
+                ))
+              }
+            </Table.Body>
+          </Table>
         )}
       </Container>
     </section>
