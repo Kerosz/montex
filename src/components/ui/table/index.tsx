@@ -3,41 +3,22 @@ import { useMemo, useState } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
 import cn from "classnames";
 // components
-import Button from "../button";
-import { TableContext, useTable } from "./table-context";
+import Button from "@components/ui/button";
+// context
+import { TableContext, useTable } from "./context";
 // types
-import type { ReactNode, ComponentPropsWithoutRef } from "react";
-import type { Data } from "./table-context";
+import type {
+  THeadProps,
+  THeadCellProps,
+  TBodyProps,
+  TRowProps,
+  TDataCellProps,
+  TPagination,
+  TableProps,
+  Data,
+} from "./types";
 
 // TODO: Convert components into "withRef" (forwardRef)
-
-export interface TableProps extends ComponentPropsWithoutRef<"table"> {
-  tableData: Data;
-  children?: ReactNode;
-  withPagination?: boolean;
-  rowsPerPage?: number;
-}
-
-export interface THeadProps extends ComponentPropsWithoutRef<"thead"> {}
-
-export interface THeadCellProps extends ComponentPropsWithoutRef<"th"> {
-  readerOnly?: boolean;
-}
-
-export interface TBodyProps extends ComponentPropsWithoutRef<"tbody"> {
-  children?: (context: { rowData: Data }) => ReactNode;
-}
-
-export interface TRowProps extends ComponentPropsWithoutRef<"tr"> {}
-
-export interface TDataCellProps extends ComponentPropsWithoutRef<"td"> {
-  alignEnd?: boolean;
-  fixedWidth?: boolean;
-}
-
-export interface TPagination extends ComponentPropsWithoutRef<"div"> {
-  pageNumberButtonClass?: string;
-}
 
 function TableHead({ children, ...rest }: THeadProps) {
   return (
