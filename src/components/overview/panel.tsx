@@ -19,6 +19,19 @@ export interface PanelProps {
 
 const tableColumns = ["Name", "Site", "Description", "Created"];
 
+const people = [
+  {
+    name: "Jane Cooper",
+    title: "Regional Paradigm Technician",
+    department: "Optimization",
+    role: "Admin",
+    email: "jane.cooper@example.com",
+    image:
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
+  },
+  // More people...
+];
+
 export default function Panel({ userId, onOpen }: PanelProps) {
   const { data } = useSWR<SiteData[]>(`/api/sites/${userId}`, fetcher);
 
@@ -45,33 +58,47 @@ export default function Panel({ userId, onOpen }: PanelProps) {
           />
         )}
         {data.length > 0 && (
-          <Table columnData={tableColumns}>
-            {data.map((entry) => (
-              <tr key={entry.id || entry.name}>
-                <Table.Td>
-                  <Link href={`/s/${entry.id}`} className="font-semibold text-black-normal">
-                    {entry.name}
-                  </Link>
-                </Table.Td>
-                <Table.Td>
-                  <Link href={entry.url} external className="hover:underline">
-                    {entry.url}
-                  </Link>
-                </Table.Td>
-                <Table.Td>{entry.description}</Table.Td>
-                <Table.Td style={{ maxWidth: "130px" }}>
-                  <span className="cursor-default">
-                    {formatDistanceStrict(entry.created_at, Date.now(), { addSuffix: true })}
-                  </span>
-                </Table.Td>
-                <Table.Td alignEnd style={{ width: "100px" }}>
-                  <Button as={Link} href={`/s/${entry.id}`} variant="secondary" size="small">
-                    Details
-                  </Button>
-                </Table.Td>
-              </tr>
-            ))}
-          </Table>
+          <>
+            <Table tableData={data} withPagination>
+              <Table.Head>
+                <Table.HeadCell>Name</Table.HeadCell>
+                <Table.HeadCell>Site</Table.HeadCell>
+                <Table.HeadCell>Description</Table.HeadCell>
+                <Table.HeadCell>Created</Table.HeadCell>
+                <Table.HeadCell readerOnly>View</Table.HeadCell>
+              </Table.Head>
+              <Table.Body>
+                {({ tableData }) =>
+                  tableData.map((entry) => (
+                    <Table.Row key={entry.id || entry.name}>
+                      <Table.DataCell>
+                        <Link href={`/s/${entry.id}`} className="font-semibold text-black-normal">
+                          {entry.name}
+                        </Link>
+                      </Table.DataCell>
+                      <Table.DataCell>
+                        <Link href={entry.url} external className="hover:underline">
+                          {entry.url}
+                        </Link>
+                      </Table.DataCell>
+                      <Table.DataCell fixedWidth>{entry.description}</Table.DataCell>
+                      <Table.DataCell>
+                        <span className="cursor-default">
+                          {formatDistanceStrict(entry.created_at, Date.now(), { addSuffix: true })}
+                        </span>
+                      </Table.DataCell>
+                      <Table.DataCell>
+                        <Button as={Link} href={`/s/${entry.id}`} variant="secondary" size="small">
+                          Details
+                        </Button>
+                      </Table.DataCell>
+                    </Table.Row>
+                  ))
+                }
+              </Table.Body>
+            </Table>
+            <Table.Pagination />
+          </>
         )}
       </Container>
     </section>
