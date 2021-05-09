@@ -23,7 +23,7 @@ export interface AddSiteProps {
 
 const DEFAULT_FORM_VALUES: RawSiteData = {
   name: "",
-  new_website: "",
+  site_url: "",
   description: "",
 };
 
@@ -83,7 +83,7 @@ export default function AddSite({ isOpen, onClose }: AddSiteProps): JSX.Element 
         </div>
 
         <div>
-          <label htmlFor="new_website" className="block text-sm font-semibold text-gray-500 pl-0.5">
+          <label htmlFor="site_url" className="block text-sm font-semibold text-gray-500 pl-0.5">
             Website
           </label>
           <div className="mt-2 flex rounded-md shadow-sm">
@@ -92,16 +92,16 @@ export default function AddSite({ isOpen, onClose }: AddSiteProps): JSX.Element 
             </span>
             <input
               type="text"
-              id="new_website"
-              aria-invalid={!!errors.new_website}
+              id="site_url"
+              aria-invalid={!!errors.site_url}
               className="focus:ring-0 focus:border-black-normal flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
               placeholder="www.example.com"
-              {...register("new_website")}
+              {...register("site_url")}
             />
           </div>
-          {errors.new_website && touchedFields.new_website && (
+          {errors.site_url && touchedFields.site_url && (
             <span role="alert" className="text-sm text-secondary">
-              {errors.new_website.message}
+              {errors.site_url.message}
             </span>
           )}
         </div>

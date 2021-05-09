@@ -1,7 +1,6 @@
 // packages
 import firebase from "@/lib/firebase";
-
-import { v4 as uuid } from "uuid";
+import { nanoid } from "nanoid";
 // helpers
 import { transformRawSite } from "@/helpers/transformers";
 // types
@@ -36,10 +35,16 @@ export async function createUser(uid: string, data: AuthUserWithoutToken): Promi
 }
 
 export async function createNewSite(rawData: RawSiteData, userId: string): Promise<void> {
-  const id = uuid();
+  const id = nanoid();
   const newSite = transformRawSite(rawData, id, userId);
 
   return _DB.collection("sites").doc(id).set(newSite);
+}
+
+export async function updateSiteData(data: SiteData, siteId: string): Promise<void> {
+  data.updated_at = Date.now();
+
+  return _DB.collection("sites").doc(siteId).update(data);
 }
 
 export async function getAllSitesByUserId(userId: string): Promise<SiteData[]> {

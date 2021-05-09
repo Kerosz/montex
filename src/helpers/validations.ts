@@ -7,10 +7,26 @@ export const ADD_SITE_SCHEMA = Yup.object().shape({
     .matches(/^[a-zA-Z-_]+$/, "Name must only include words separated by - or _")
     .required("Name is a required field!")
     .strict(),
-  new_website: Yup.string().required("Site URL is required!"),
+  site_url: Yup.string().required("Site URL is required!"),
   description: Yup.string()
     .min(3, "Description must be at least 3 characters long!")
     .max(256, "Description must be 256 characters at most!"),
+});
+
+export const UPDATE_SITE_SCHEMA = Yup.object().shape({
+  name: Yup.string()
+    .min(3, "Name must be at least 3 characters long!")
+    .max(21, "Name must be 21 characters at most!")
+    .matches(/^[a-zA-Z-_]+$/, "Name must only include words separated by - or _")
+    .required("Name is a required field!")
+    .strict(),
+  url: Yup.string().url("URL has a wrong format!").required("Site URL is required!"),
+  description: Yup.string()
+    .min(3, "Description must be at least 3 characters long!")
+    .max(256, "Description must be 256 characters at most!"),
+  comment_policy: Yup.string().url("URL has a wrong format!"),
+  nsfw_content: Yup.bool(),
+  branding: Yup.bool(),
 });
 
 export const SIGNUP_SCHEMA = Yup.object().shape({

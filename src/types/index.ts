@@ -25,7 +25,7 @@ export type AuthProvider =
 
 export type RawSiteData = {
   name: string;
-  new_website: string;
+  site_url: string;
   description: string;
 };
 
@@ -36,6 +36,9 @@ export type SiteData = {
   url: string;
   description: string;
   name: string;
+  comment_policy: string | undefined;
+  nsfw_content: boolean;
+  branding: boolean;
   created_at: number;
   updated_at: number;
 };
@@ -49,3 +52,7 @@ export type ListData = {
 };
 
 export interface SvgIcon extends SVGAttributes<HTMLOrSVGElement> {}
+
+export interface PageProps<T = {}> {
+  data: T;
+}

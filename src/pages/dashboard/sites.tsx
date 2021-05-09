@@ -9,7 +9,7 @@ import Container from "@components/ui/contaienr";
 import Button from "@components/ui/button";
 import AddSite from "@components/site/add-site";
 import Search from "@components/site/search";
-import Panel from "@components/site/panel";
+import List from "@/components/site/list";
 // context
 import { useAuth } from "@/context/auth";
 // hooks
@@ -58,7 +58,7 @@ export default function Sites(): JSX.Element {
                 <AddSite isOpen={isOpen} onClose={onClose} />
               </div>
 
-              <Panel data={data} onOpen={onOpen} />
+              <List data={data} onOpen={onOpen} />
             </Container>
           </section>
         )}

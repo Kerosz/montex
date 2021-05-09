@@ -72,6 +72,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
       [slimClass]: variant === "slim",
       "px-4 py-1 text-sm": size === "small",
       "py-1.5 px-4 text-base": size === "normal",
+      "py-1.5 px-8 text-base": size === "medium",
       "py-2.5 px-9 text-lg": size === "large",
       "w-full py-2.5 flex justify-center items-center": size === "full",
       "opacity-25": disabled,
