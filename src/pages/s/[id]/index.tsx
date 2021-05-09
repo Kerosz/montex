@@ -87,13 +87,10 @@ export default function General({ data }: PageProps<SiteData>): JSX.Element {
                 id="name"
                 placeholder="My site name"
                 defaultValue={data.name}
+                isError={errors.name && touchedFields.name}
+                error={errors.name?.message}
                 {...register("name")}
               />
-              {errors.name && touchedFields.name && (
-                <span role="alert" className="block text-sm text-secondary mt-1 pl-0.5">
-                  {errors.name.message}
-                </span>
-              )}
             </dd>
           </div>
 
@@ -109,13 +106,10 @@ export default function General({ data }: PageProps<SiteData>): JSX.Element {
                 placeholder="Brief description for your site."
                 defaultValue={data.description}
                 rows={5}
+                isError={errors.description && touchedFields.description}
+                error={errors.description?.message}
                 {...register("description")}
               />
-              {errors.description && touchedFields.description && (
-                <span role="alert" className="block text-sm text-secondary mt-1 pl-0.5">
-                  {errors.description.message}
-                </span>
-              )}
             </dd>
           </div>
 
@@ -129,13 +123,10 @@ export default function General({ data }: PageProps<SiteData>): JSX.Element {
                 id="comment_policy"
                 placeholder="URL for comment policy"
                 defaultValue={data.comment_policy}
+                isError={errors.comment_policy && touchedFields.comment_policy}
+                error={errors.comment_policy?.message}
                 {...register("comment_policy")}
               />
-              {errors.comment_policy && touchedFields.comment_policy && (
-                <span role="alert" className="block text-sm text-secondary mt-1 pl-0.5">
-                  {errors.comment_policy.message}
-                </span>
-              )}
             </dd>
           </div>
 
@@ -151,17 +142,14 @@ export default function General({ data }: PageProps<SiteData>): JSX.Element {
                   id="nsfw_content"
                   defaultChecked={data.nsfw_content}
                   className="w-4 h-4"
+                  isError={errors.nsfw_content && touchedFields.nsfw_content}
+                  error={errors.nsfw_content?.message}
                   {...register("nsfw_content")}
                 />
                 <label htmlFor="nsfw_content" className="ml-2 text-gray-600">
                   Flag my site as adult content or NSFW
                 </label>
               </div>
-              {errors.nsfw_content && touchedFields.nsfw_content && (
-                <span role="alert" className="block text-sm text-secondary mt-1 pl-0.5">
-                  {errors.nsfw_content.message}
-                </span>
-              )}
             </dd>
           </div>
 
@@ -178,6 +166,8 @@ export default function General({ data }: PageProps<SiteData>): JSX.Element {
                   defaultChecked={data.branding}
                   className="w-4 h-4"
                   disabled={!isPaid}
+                  isError={errors.branding && touchedFields.branding}
+                  error={errors.branding?.message}
                   {...register("branding")}
                 />
                 <label
@@ -194,11 +184,6 @@ export default function General({ data }: PageProps<SiteData>): JSX.Element {
                     Upgrade
                   </Link>
                 </p>
-              )}
-              {errors.branding && touchedFields.branding && (
-                <span role="alert" className="block text-sm text-secondary mt-1 pl-0.5">
-                  {errors.branding.message}
-                </span>
               )}
             </dd>
           </div>

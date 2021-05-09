@@ -10,10 +10,22 @@ export interface InputProps extends ComponentPropsWithRef<"input"> {
   component?: Component;
   rows?: string | number;
   cols?: string | number;
+  isError?: boolean;
+  error?: string;
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
-  const { type = "text", as, component = "input", className, disabled, readOnly, ...rest } = props;
+  const {
+    type = "text",
+    as,
+    component = "input",
+    className,
+    disabled,
+    readOnly,
+    isError,
+    error,
+    ...rest
+  } = props;
 
   const rootClass = cn(
     "block focus:ring-0 w-full shadow-sm sm:text-sm border-gray-300 rounded-md",
@@ -28,14 +40,21 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   const El = as || component;
 
   return (
-    <El
-      type={type}
-      ref={ref}
-      className={rootClass}
-      disabled={disabled}
-      readOnly={readOnly}
-      {...rest}
-    />
+    <>
+      <El
+        type={type}
+        ref={ref}
+        className={rootClass}
+        disabled={disabled}
+        readOnly={readOnly}
+        {...rest}
+      />
+      {isError && (
+        <span role="alert" className="block text-sm text-secondary mt-1 pl-0.5">
+          {error}
+        </span>
+      )}
+    </>
   );
 });
 
