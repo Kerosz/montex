@@ -30,6 +30,8 @@ export default function Panel({ userId, onOpen }: PanelProps) {
     );
   }
 
+  console.log("swr data", data);
+
   return (
     <section className="transform -translate-y-8">
       <Container>

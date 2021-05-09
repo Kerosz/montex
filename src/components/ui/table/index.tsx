@@ -6,6 +6,8 @@ import cn from "classnames";
 import Button from "@components/ui/button";
 // context
 import { TableContext, useTable } from "./context";
+// hooks
+import { useUpdateEffect } from "@hooks/use-update-effect";
 // types
 import type {
   THeadProps,
@@ -205,18 +207,21 @@ export default function Table({
   const [page, setPage] = useState<number>(0);
   const [rowsPerPageState, setRowsPerPage] = useState<number>(rowsPerPage);
 
+  // Needed to re-update data state if SWR mutates state
+  useUpdateEffect(() => setData(tableData), [tableData]);
+
   const tableProvider = useMemo(
     () => ({
       rowData: data,
       rowCount: tableData.length,
-      setData,
+      withPagination,
       page,
       rowsPerPage: rowsPerPageState,
+      setData,
       setPage,
       setRowsPerPage,
-      withPagination,
     }),
-    [tableData, page, rowsPerPage]
+    [tableData, data, page, rowsPerPage, withPagination]
   );
 
   const wrapperClass = cn("shadow overflow-hidden", {
