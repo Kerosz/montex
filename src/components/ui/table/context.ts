@@ -3,20 +3,7 @@ import { createContext, useContext } from "react";
 // helpers
 import { isUndefined } from "@helpers/assertions";
 // types
-import type { Dispatch, SetStateAction } from "react";
-
-export type Data = Array<Record<string, any>>;
-
-export type TableContextProps = {
-  rowData: Data;
-  rowCount: number;
-  withPagination: boolean;
-  page: number;
-  rowsPerPage: number;
-  setData: Dispatch<SetStateAction<Data>>;
-  setPage: Dispatch<SetStateAction<number>>;
-  setRowsPerPage: Dispatch<SetStateAction<number>>;
-};
+import { TableContextProps } from "./types";
 
 const DEFAULT_CTX_VALUES = ({} as unknown) as TableContextProps;
 

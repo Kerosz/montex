@@ -1,6 +1,11 @@
 // packages
 import { useMemo, useState } from "react";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ArrowSmDownIcon,
+  ArrowSmUpIcon,
+} from "@heroicons/react/solid";
 import cn from "classnames";
 // components
 import Button from "@components/ui/button";
@@ -8,6 +13,8 @@ import Button from "@components/ui/button";
 import { TableContext, useTable } from "./context";
 // hooks
 import { useUpdateEffect } from "@hooks/use-update-effect";
+// helpers
+import { isString } from "@/helpers/assertions";
 // types
 import type {
   THeadProps,
@@ -17,7 +24,8 @@ import type {
   TDataCellProps,
   TPagination,
   TableProps,
-  Data,
+  RowData,
+  Order,
 } from "./types";
 
 // TODO: Convert components into "withRef" (forwardRef)
@@ -30,27 +38,81 @@ function TableHead({ children, ...rest }: THeadProps) {
   );
 }
 
-function TableHeadCell({ children, readerOnly, className, ...rest }: THeadCellProps) {
-  const rootClass = cn("px-6 py-3 cursor-default", {
-    "text-left text-xs font-medium text-gray-500 uppercase tracking-wider": !readerOnly,
-    relative: readerOnly,
-  });
+function TableHeadCell({ children, readerOnly, className, iconLabel, ...rest }: THeadCellProps) {
+  const { order, orderBy } = useTable();
+
+  const rootClass = cn(
+    "px-6 py-3 cursor-default",
+    {
+      "text-left text-xs font-medium text-gray-500 uppercase tracking-wider": !readerOnly,
+      "relative select-none pointer-events-none": readerOnly,
+    },
+    className
+  );
 
   return (
     <th scope="col" className={rootClass} title={String(children)} {...rest}>
-      {readerOnly ? <span className="sr-only">{children}</span> : children}
+      {readerOnly ? (
+        <span className="sr-only">{children}</span>
+      ) : (
+        <span className="flex">
+          {children}
+          {orderBy === iconLabel && (
+            <>
+              {order === "ASC" ? (
+                <ArrowSmUpIcon className="w-4 ml-1" />
+              ) : (
+                <ArrowSmDownIcon className="w-4 ml-1" />
+              )}
+            </>
+          )}
+        </span>
+      )}
     </th>
   );
 }
 
 function TableBody({ children, ...rest }: TBodyProps) {
-  const { rowData, page, rowsPerPage, withPagination } = useTable();
+  const { rows, page, order, orderBy, rowsPerPage, withPagination } = useTable();
 
-  const slicedData = rowData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+  function getComparator<Key extends keyof any>(
+    type: Order,
+    orderKey: Key
+  ): (a: { [key in Key]: number | string }, b: { [key in Key]: number | string }) => number {
+    function comparator<T>(a: T, b: T, key: keyof T) {
+      if (b[key] < a[key]) {
+        return -1;
+      }
+      if (b[key] > a[key]) {
+        return 1;
+      }
+      return 0;
+    }
+
+    return type === "DESC"
+      ? (a, b) => comparator(a, b, orderKey)
+      : (a, b) => -comparator(a, b, orderKey);
+  }
+
+  function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
+    const stabilizedThis = array.map((el, idx) => [el, idx] as [T, number]);
+    stabilizedThis.sort((a, b) => {
+      const orderResult = comparator(a[0], b[0]);
+
+      if (orderResult !== 0) return orderResult;
+      return a[1] - b[1];
+    });
+    return stabilizedThis.map((el) => el[0]);
+  }
+
+  const slicedData = stableSort(rows, getComparator(order, orderBy)).slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage
+  );
 
   return (
     <tbody className="bg-white-normal divide-y divide-gray-200" {...rest}>
-      {children ? children({ rowData: withPagination ? slicedData : rowData }) : null}
+      {children ? children({ rows: withPagination ? slicedData : rows }) : null}
     </tbody>
   );
 }
@@ -64,7 +126,7 @@ function TableDataCell({ className, alignEnd, fixedWidth, ...rest }: TDataCellPr
     "px-6 py-4",
     {
       "text-right": alignEnd,
-      "max-w-[405px] min-w-[300px]": fixedWidth,
+      "max-w-[300px] min-w-[300px]": fixedWidth,
       "whitespace-nowrap": !fixedWidth,
     },
     className
@@ -200,28 +262,71 @@ export default function Table({
   children,
   withPagination = false,
   rowsPerPage = 4,
-  tableData,
+  rowData,
+  columnData,
+  defaultOrderBy,
   ...rest
 }: TableProps): JSX.Element {
-  const [data, setData] = useState<Data>(tableData);
-  const [page, setPage] = useState<number>(0);
+  const [dataState, setData] = useState<RowData>(rowData);
+  // TODO: better tuping
+  const [orderByState, setOrderBy] = useState<string>(
+    defaultOrderBy || (columnData?.[0] as any).orderBy
+  );
+  const [orderState, setOrder] = useState<Order>("ASC");
+  const [pageState, setPage] = useState<number>(0);
   const [rowsPerPageState, setRowsPerPage] = useState<number>(rowsPerPage);
 
   // Needed to re-update data state if SWR mutates state
-  useUpdateEffect(() => setData(tableData), [tableData]);
+  useUpdateEffect(() => setData(rowData), [rowData]);
+
+  const onSort = (property: string) => {
+    const isAsc = orderByState === property && orderState === "ASC";
+
+    setOrder(isAsc ? "DESC" : "ASC");
+    setOrderBy(property);
+  };
+
+  const renderHeadColumns = () => {
+    if (columnData) {
+      return columnData.map((column) => {
+        if (isString(column)) {
+          return <TableHeadCell key={column}>{column}</TableHeadCell>;
+        }
+
+        const { label, options, orderBy } = column;
+
+        return (
+          <TableHeadCell
+            key={label}
+            onClick={() => onSort(orderBy as string)}
+            className="cursor-pointer select-none"
+            iconLabel={orderBy}
+            {...options}
+          >
+            {label}
+          </TableHeadCell>
+        );
+      });
+    } else {
+      throw new Error("You must either pass in children or column data!");
+    }
+  };
 
   const tableProvider = useMemo(
     () => ({
-      rowData: data,
-      rowCount: tableData.length,
+      rows: dataState,
+      rowCount: dataState.length,
+      columns: columnData,
       withPagination,
-      page,
+      page: pageState,
       rowsPerPage: rowsPerPageState,
+      order: orderState,
+      orderBy: orderByState,
       setData,
       setPage,
       setRowsPerPage,
     }),
-    [tableData, data, page, rowsPerPage, withPagination]
+    [dataState, orderState, orderByState, pageState, rowsPerPage, withPagination, columnData]
   );
 
   const wrapperClass = cn("shadow overflow-hidden", {
@@ -232,10 +337,11 @@ export default function Table({
   return (
     <TableContext.Provider value={tableProvider}>
       <div className="flex flex-col">
-        <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+        <div className="-my-2 overflow-x-auto">
+          <div className="py-2 align-middle inline-block min-w-full">
             <div className={wrapperClass}>
               <table className="w-full divide-y divide-gray-200" {...rest}>
+                {columnData && <TableHead>{renderHeadColumns()}</TableHead>}
                 {children}
               </table>
             </div>

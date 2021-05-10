@@ -17,6 +17,31 @@ export interface PanelProps {
   onOpen: () => void;
 }
 
+const columns = [
+  {
+    label: "Name",
+    orderBy: "name",
+  },
+  {
+    label: "Site",
+    orderBy: "url",
+  },
+  {
+    label: "Description",
+    orderBy: "description",
+  },
+  {
+    label: "Created",
+    orderBy: "created_at",
+  },
+  {
+    label: "View",
+    options: {
+      readerOnly: true,
+    },
+  },
+];
+
 export default function Panel({ userId, onOpen }: PanelProps) {
   const { data } = useSWR<SiteData[]>(`/api/sites/${userId}`, fetcher);
 
@@ -29,8 +54,6 @@ export default function Panel({ userId, onOpen }: PanelProps) {
       </section>
     );
   }
-
-  console.log("swr data", data);
 
   return (
     <section className="transform -translate-y-8">
@@ -45,17 +68,10 @@ export default function Panel({ userId, onOpen }: PanelProps) {
           />
         )}
         {data.length > 0 && (
-          <Table tableData={data} withPagination>
-            <Table.Head>
-              <Table.HeadCell>Name</Table.HeadCell>
-              <Table.HeadCell>Site</Table.HeadCell>
-              <Table.HeadCell>Description</Table.HeadCell>
-              <Table.HeadCell>Created</Table.HeadCell>
-              <Table.HeadCell readerOnly>View</Table.HeadCell>
-            </Table.Head>
+          <Table rowData={data} columnData={columns} withPagination>
             <Table.Body>
-              {({ rowData }) =>
-                rowData.map((entry) => (
+              {({ rows }) =>
+                rows.map((entry) => (
                   <Table.Row key={entry.id || entry.name}>
                     <Table.DataCell>
                       <Link href={`/s/${entry.id}`} className="font-semibold text-black-normal">
