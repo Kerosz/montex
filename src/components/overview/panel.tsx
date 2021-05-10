@@ -68,7 +68,13 @@ export default function Panel({ userId, onOpen }: PanelProps) {
           />
         )}
         {data.length > 0 && (
-          <Table rowData={data} columnData={columns} withPagination>
+          <Table
+            rowData={data}
+            columnData={columns}
+            rowsPerPage={4}
+            defaultOrderBy="created_at"
+            withPagination
+          >
             <Table.Body>
               {({ rows }) =>
                 rows.map((entry) => (

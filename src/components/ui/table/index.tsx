@@ -59,7 +59,7 @@ function TableHeadCell({ children, readerOnly, className, iconLabel, ...rest }: 
           {children}
           {orderBy === iconLabel && (
             <>
-              {order === "ASC" ? (
+              {order === "DESC" ? (
                 <ArrowSmUpIcon className="w-4 ml-1" />
               ) : (
                 <ArrowSmDownIcon className="w-4 ml-1" />
@@ -261,7 +261,7 @@ function TablePagination({ pageNumberButtonClass, className, ...rest }: TPaginat
 export default function Table({
   children,
   withPagination = false,
-  rowsPerPage = 4,
+  rowsPerPage = 5,
   rowData,
   columnData,
   defaultOrderBy,
@@ -272,7 +272,7 @@ export default function Table({
   const [orderByState, setOrderBy] = useState<string>(
     defaultOrderBy || (columnData?.[0] as any).orderBy
   );
-  const [orderState, setOrder] = useState<Order>("ASC");
+  const [orderState, setOrder] = useState<Order>("DESC");
   const [pageState, setPage] = useState<number>(0);
   const [rowsPerPageState, setRowsPerPage] = useState<number>(rowsPerPage);
 
