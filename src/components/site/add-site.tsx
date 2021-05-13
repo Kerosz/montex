@@ -15,6 +15,7 @@ import { transformRawSite } from "@helpers/transformers";
 import fetcher from "@helpers/fetcher";
 // types
 import type { RawSiteData } from "@/types";
+import useToast, { Toast } from "@components/ui/toast";
 
 export interface AddSiteProps {
   isOpen: boolean;
@@ -41,6 +42,7 @@ export default function AddSite({ isOpen, onClose }: AddSiteProps): JSX.Element 
   });
   const { data } = useSWR<any>("/api/sites", fetcher);
 
+  const toast = useToast();
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleClose = () => {
@@ -53,7 +55,17 @@ export default function AddSite({ isOpen, onClose }: AddSiteProps): JSX.Element 
       await createNewSite(formData, user.uid);
 
       const tempSiteData = transformRawSite(formData, null, user.uid);
-      mutate(`/api/sites/${user.uid}`, [...data, tempSiteData]);
+      await mutate(`/api/sites/${user.uid}`, [...data, tempSiteData]);
+
+      toast({
+        id: "add-site",
+        config: {
+          status: "success",
+          title: "Site successfully added!",
+          description:
+            "Your site was successfully added, and you can start managing it at any point!",
+        },
+      });
 
       handleClose();
     }

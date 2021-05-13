@@ -13,11 +13,13 @@ import Panel from "@components/overview/panel";
 import { useAuth } from "@/context/auth";
 // hooks
 import useDisclosure from "@/hooks/use-disclosure";
+import useToast from "@components/ui/toast";
 
 export default function Dashboard(): JSX.Element | null {
   const router = useRouter();
   const { user } = useAuth();
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const toast = useToast();
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -26,6 +28,18 @@ export default function Dashboard(): JSX.Element | null {
 
     return () => clearTimeout(timeoutId);
   }, [user]);
+
+  const onClick = () => {
+    toast({
+      id: "add-site",
+      config: {
+        status: "success",
+        title: "Site successfully added!",
+        description:
+          "Your site was successfully added, and you can start managing it at any point!",
+      },
+    });
+  };
 
   return (
     <BaseLayout title="Dashboard" navbarProps={{ variant: "dashboard" }}>
@@ -49,7 +63,11 @@ export default function Dashboard(): JSX.Element | null {
                   </span>
                 </div>
 
-                <Button variant="primary" className="h-9 px-8 font-medium text-sm" onClick={onOpen}>
+                <Button
+                  variant="primary"
+                  className="h-9 px-8 font-medium text-sm"
+                  onClick={onClick}
+                >
                   New Site
                 </Button>
               </Container>
