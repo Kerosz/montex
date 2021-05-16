@@ -41,7 +41,7 @@ export async function createNewSite(rawData: RawSiteData, userId: string): Promi
   return _DB.collection("sites").doc(id).set(newSite);
 }
 
-export async function updateSiteData(data: SiteData, siteId: string): Promise<void> {
+export async function updateSiteData(data: Partial<SiteData>, siteId: string): Promise<void> {
   data.updated_at = Date.now();
 
   return _DB.collection("sites").doc(siteId).update(data);
