@@ -6,47 +6,42 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import SiteLayout from "@components/layouts/site";
 import Input from "@components/ui/input";
 import BasePanel from "@components/base-panel";
+import Badge from "@components/ui/badge";
 import Table from "@components/ui/table";
-import Link from "@components/ui/link";
 import Button from "@components/ui/button";
 // helpers
+import { createNewRoute } from "@services/firestore";
+import { rawRouteTransform } from "@helpers/transformers";
 import { ADD_ROUTE } from "@helpers/validations";
 // types
-import type { PageProps, SiteData } from "@/types";
+import type { PageProps, SiteData, RawRouteData, RouteData } from "@/types";
+import { format } from "date-fns";
 
-type RoutesFormData = {
-  name: string;
-  path: string;
-};
+type RoutesFormData = RawRouteData;
 
 const COLUMNS = [
   {
     label: "Path",
-    orderBy: "url",
+    orderBy: "path",
   },
   {
     label: "Created",
     orderBy: "created_at",
-  },
-  {
-    label: "View",
-    options: {
-      readerOnly: true,
-    },
   },
 ];
 
 const DEFAULT_FORM_VALUES = {
   name: "",
   path: "",
-} as RoutesFormData;
+};
 
 export default function Routes({ data }: PageProps<SiteData>): JSX.Element {
-  const { data: routeData } = useSWR(data.id ? `/api/routes/${data.id}` : null);
+  const { data: routeData } = useSWR<Array<RouteData>>(data.id ? `/api/routes/${data.id}` : null);
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting, touchedFields },
+    reset,
   } = useForm<RoutesFormData>({
     defaultValues: DEFAULT_FORM_VALUES,
     resolver: yupResolver(ADD_ROUTE),
@@ -54,7 +49,13 @@ export default function Routes({ data }: PageProps<SiteData>): JSX.Element {
   });
 
   const onSubmitHandler = async (formData: RoutesFormData) => {
-    console.log(formData);
+    await createNewRoute(formData, data.id);
+
+    const tempRouteData = rawRouteTransform(formData, null, data.id);
+
+    await mutate(`/api/routes/${data.id}`, [...(routeData as RouteData[]), tempRouteData]);
+
+    reset(DEFAULT_FORM_VALUES);
   };
 
   return (
@@ -111,27 +112,19 @@ export default function Routes({ data }: PageProps<SiteData>): JSX.Element {
             columnData={COLUMNS}
             rowsPerPage={5}
             defaultOrderBy="created_at"
-            withPagination={routeData.length > 5}
+            withPagination
           >
             <Table.Body>
               {({ rows }) =>
                 rows.map((entry) => (
                   <Table.Row key={entry.id || entry.name}>
                     <Table.DataCell>
-                      <Link href={`/s/${entry.id}`} className="font-semibold text-black-normal">
-                        {entry.name}
-                      </Link>
+                      <Badge colorScheme="gray" size="medium">
+                        {entry.path}
+                      </Badge>
                     </Table.DataCell>
                     <Table.DataCell>
-                      <Link href={entry.url} external className="hover:underline">
-                        {entry.url}
-                      </Link>
-                    </Table.DataCell>
-                    <Table.DataCell fixedWidth>{entry.description}</Table.DataCell>
-                    <Table.DataCell>
-                      <Button as={Link} href={`/s/${entry.id}`} variant="secondary" size="small">
-                        Details
-                      </Button>
+                      {format(entry.created_at, "MMM dd, yyyy - h:mm:ss a")}
                     </Table.DataCell>
                   </Table.Row>
                 ))

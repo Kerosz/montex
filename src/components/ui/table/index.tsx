@@ -187,7 +187,8 @@ function TablePagination({ pageNumberButtonClass, className, ...rest }: TPaginat
 
   const numberButtonClass = cn(
     {
-      "items-center px-4 py-2 border border-gray-300 bg-white-normal text-sm font-medium text-gray-700 hover:bg-gray-50": !pageNumberButtonClass,
+      "items-center px-4 py-2 border border-gray-300 bg-white-normal text-sm font-medium text-gray-700 hover:bg-gray-50":
+        !pageNumberButtonClass,
       pageNumberButtonClass: !!pageNumberButtonClass,
     },
     className
@@ -258,6 +259,8 @@ function TablePagination({ pageNumberButtonClass, className, ...rest }: TPaginat
   );
 }
 
+// BUG: Sorting works only when pagination is enabled
+// TODO: Enable sorting of the table without having the pagination enabled
 export default function Table({
   children,
   withPagination = false,

@@ -34,14 +34,25 @@ export type SiteData = {
   user_id: string;
   doc_id: string;
   url: string;
-  description: string;
-  name: string;
   comment_policy: string | undefined;
   nsfw_content: boolean;
   branding: boolean;
   created_at: number;
   updated_at: number;
+} & Omit<RawSiteData, "site_url">;
+
+export type RawRouteData = {
+  name: string;
+  path: string;
 };
+
+export type RouteData = {
+  id: string;
+  doc_id: string;
+  site_id: string;
+  created_at: number;
+  updated_at: number;
+} & RawRouteData;
 
 export type Component = string | JSXElementConstructor<any>;
 

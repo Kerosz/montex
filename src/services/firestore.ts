@@ -2,9 +2,9 @@
 import firebase from "@/lib/firebase";
 import { nanoid } from "nanoid";
 // helpers
-import { transformRawSite } from "@/helpers/transformers";
+import { rawRouteTransform, transformRawSite } from "@/helpers/transformers";
 // types
-import type { RawSiteData, SiteData, AuthUserWithoutToken } from "@/types";
+import type { RawSiteData, SiteData, AuthUserWithoutToken, RawRouteData } from "@/types";
 
 /** Firebase firestore init */
 const _DB = firebase.firestore();
@@ -39,6 +39,13 @@ export async function createNewSite(rawData: RawSiteData, userId: string): Promi
   const newSite = transformRawSite(rawData, id, userId);
 
   return _DB.collection("sites").doc(id).set(newSite);
+}
+
+export async function createNewRoute(rawData: RawRouteData, siteId: string): Promise<void> {
+  const id = nanoid();
+  const newRouteData = rawRouteTransform(rawData, id, siteId);
+
+  return _DB.collection("routes").doc(id).set(newRouteData);
 }
 
 export async function updateSiteData(data: Partial<SiteData>, siteId: string): Promise<void> {
