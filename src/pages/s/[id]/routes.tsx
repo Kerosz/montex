@@ -41,7 +41,7 @@ export default function Routes({ data }: PageProps<SiteData>): JSX.Element {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, touchedFields },
+    formState: { errors, isSubmitting, touchedFields, isValid },
     reset,
   } = useForm<RoutesFormData>({
     defaultValues: DEFAULT_FORM_VALUES,
@@ -67,84 +67,93 @@ export default function Routes({ data }: PageProps<SiteData>): JSX.Element {
   };
 
   return (
-    <div className="flex flex-col w-full space-y-6">
+    <>
       <Toast {...config} />
-      <BasePanel
-        as="form"
-        title="Management"
-        subTitle="Create new routes for your site."
-        action={
-          <Button type="submit" variant="primary" size="normal" loading={isSubmitting}>
-            Add new route
-          </Button>
-        }
-        onSubmit={handleSubmit(onSubmitHandler)}
-      >
-        <div className="border-t border-b border-gray-200">
-          <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <label htmlFor="name" className="text-sm font-medium text-gray-600">
-              Route name
-            </label>
+      <div className="flex flex-col w-full space-y-6">
+        <BasePanel
+          as="form"
+          title="Management"
+          subTitle="Create new routes for your site."
+          action={
+            <Button
+              type="submit"
+              variant="primary"
+              size="normal"
+              loading={isSubmitting}
+              aria-disabled={!isValid}
+              disabled={!isValid}
+            >
+              Add new route
+            </Button>
+          }
+          onSubmit={handleSubmit(onSubmitHandler)}
+        >
+          <div className="border-t border-b border-gray-200">
+            <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <label htmlFor="name" className="text-sm font-medium text-gray-600">
+                Route name
+              </label>
 
-            <div className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              <Input
-                id="name"
-                placeholder="My route name"
-                isError={errors.name && touchedFields.name}
-                error={errors.name?.message}
-                {...register("name")}
-              />
+              <div className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <Input
+                  id="name"
+                  placeholder="My route name"
+                  isError={errors.name && touchedFields.name}
+                  error={errors.name?.message}
+                  {...register("name")}
+                />
+              </div>
+            </div>
+
+            <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <label htmlFor="name" className="text-sm font-medium text-gray-600">
+                Path
+              </label>
+
+              <div className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <Input
+                  id="path"
+                  placeholder="Route path"
+                  isError={errors.path && touchedFields.path}
+                  error={errors.path?.message}
+                  {...register("path")}
+                />
+              </div>
             </div>
           </div>
-
-          <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <label htmlFor="name" className="text-sm font-medium text-gray-600">
-              Path
-            </label>
-
-            <div className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              <Input
-                id="path"
-                placeholder="Route path"
-                isError={errors.path && touchedFields.path}
-                error={errors.path?.message}
-                {...register("path")}
-              />
-            </div>
-          </div>
-        </div>
-      </BasePanel>
-      <BasePanel title="Routes" subTitle="General information about existent site routes.">
-        {routeData ? (
-          <Table
-            rowData={routeData}
-            columnData={COLUMNS}
-            rowsPerPage={5}
-            defaultOrderBy="created_at"
-            withPagination
-          >
-            <Table.Body>
-              {({ rows }) =>
-                rows.map((entry) => (
-                  <Table.Row key={entry.id || entry.name}>
-                    <Table.DataCell>
-                      <Badge colorScheme="gray" size="medium">
-                        {entry.path}
-                      </Badge>
-                    </Table.DataCell>
-                    <Table.DataCell>
-                      {format(entry.created_at, "MMM dd, yyyy - h:mm:ss a")}
-                    </Table.DataCell>
-                  </Table.Row>
-                ))
-              }
-            </Table.Body>
-          </Table>
-        ) : (
-          <h1>Loading...</h1>
-        )}
-      </BasePanel>
-    </div>
+        </BasePanel>
+        <BasePanel title="Routes" subTitle="General information about existent site routes.">
+          {routeData ? (
+            <Table
+              rowData={routeData}
+              columnData={COLUMNS}
+              rowsPerPage={5}
+              defaultOrderBy="created_at"
+              withPagination
+            >
+              <Table.Body>
+                {({ rows }) =>
+                  rows.map((entry) => (
+                    <Table.Row key={entry.id || entry.name}>
+                      <Table.DataCell>
+                        <Badge colorScheme="gray" size="medium">
+                          {entry.path}
+                        </Badge>
+                      </Table.DataCell>
+                      <Table.DataCell>
+                        {format(entry.created_at, "MMM dd, yyyy - h:mm:ss a")}
+                      </Table.DataCell>
+                    </Table.Row>
+                  ))
+                }
+              </Table.Body>
+            </Table>
+          ) : (
+            <h1>Loading...</h1>
+          )}
+        </BasePanel>
+      </div>
+    </>
   );
 }
 

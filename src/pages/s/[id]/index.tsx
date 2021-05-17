@@ -38,7 +38,7 @@ export default function General({ data }: PageProps<SiteData>): JSX.Element {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, touchedFields },
+    formState: { errors, isSubmitting, isValid, touchedFields },
   } = useForm<GeneralFormValues>({
     defaultValues: DEFAULT_FORM_VALUES,
     resolver: yupResolver(UPDATE_SITE_SCHEMA),
@@ -63,7 +63,14 @@ export default function General({ data }: PageProps<SiteData>): JSX.Element {
       title="General"
       subTitle="Configure your general site information"
       action={
-        <Button type="submit" variant="primary" size="normal" loading={isSubmitting}>
+        <Button
+          type="submit"
+          variant="primary"
+          size="normal"
+          loading={isSubmitting}
+          aria-disabled={!isValid}
+          disabled={!isValid}
+        >
           Save
         </Button>
       }
@@ -148,6 +155,7 @@ export default function General({ data }: PageProps<SiteData>): JSX.Element {
             <div className="flex items-center">
               <Input
                 type="checkbox"
+                variant="normal"
                 id="nsfw_content"
                 defaultChecked={data.nsfw_content}
                 className="w-4 h-4"
@@ -171,6 +179,7 @@ export default function General({ data }: PageProps<SiteData>): JSX.Element {
             <div className="flex items-center">
               <Input
                 type="checkbox"
+                variant="normal"
                 id="branding"
                 defaultChecked={data.branding}
                 className="w-4 h-4"
