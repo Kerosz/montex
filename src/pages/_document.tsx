@@ -13,6 +13,7 @@ class MyDocument extends Document {
         </Head>
         <body>
           <Main />
+          <div id="__portals" className="fixed z-40 top-0 right-0 flex flex-col items-end" />
           <NextScript />
         </body>
       </Html>
