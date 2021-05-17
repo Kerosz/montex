@@ -12,6 +12,8 @@ enum Variant {
   twitter,
   outlined,
   modern,
+  danger,
+  dangerOutlined,
 }
 
 enum Size {
@@ -20,6 +22,7 @@ enum Size {
   medium,
   large,
   full,
+  fullSmall,
 }
 
 export interface ButtonProps extends ComponentProps<"button"> {
@@ -59,6 +62,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
     "bg-transparent text-gray-800 border border-gray-800 hover:text-secondary hover:border-secondary";
   const modernClass =
     "bg-gray-50 text-gray-800 uppercase hover:border-gray-300 hover:shadow hover:bg-gray-100 hover:text-gray-700 border border-gray-200";
+  const dangerClass = "bg-red-600 text-gray-50 hover:text-gray-100 border border-red-600";
+  const dangerOutlinedClass =
+    "text-red-600 border border-red-500 hover:text-red-500 hover:border-red-500";
   const slimClass = "";
 
   const rootClass = cn(
@@ -69,13 +75,16 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
       [secondaryClass]: variant === "secondary",
       [outlinedClass]: variant === "outlined",
       [modernClass]: variant === "modern",
+      [dangerClass]: variant === "danger",
+      [dangerOutlinedClass]: variant === "dangerOutlined",
       [slimClass]: variant === "slim",
       "px-4 py-1 text-sm": size === "small",
       "py-1.5 px-4 text-base": size === "normal",
       "py-1.5 px-8 text-base": size === "medium",
       "py-2.5 px-9 text-lg": size === "large",
       "w-full py-2.5 flex justify-center items-center": size === "full",
-      "opacity-25": disabled,
+      "w-full py-1.5 flex justify-center items-center": size === "fullSmall",
+      "opacity-25 cursor-not-allowed": disabled,
     },
     className
   );

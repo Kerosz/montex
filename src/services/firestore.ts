@@ -75,3 +75,21 @@ export async function getSiteBySiteId(siteId: string): Promise<SiteData | undefi
 
   return site as SiteData;
 }
+
+export async function deleteSite(siteId: string): Promise<void> {
+  await _DB.collection("sites").doc(siteId).delete();
+
+  // Using batch to delete all routes that references the deleted site by `site_id` field
+  // https://github.com/googleapis/nodejs-firestore/issues/64
+  await _DB
+    .collection("routes")
+    .where("site_id", "==", siteId)
+    .get()
+    .then((snapshot) => {
+      const batch = _DB.batch();
+
+      snapshot.forEach((doc) => batch.delete(doc.ref));
+
+      return batch.commit();
+    });
+}

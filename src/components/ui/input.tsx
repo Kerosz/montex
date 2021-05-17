@@ -11,7 +11,7 @@ export interface InputProps extends ComponentPropsWithRef<"input"> {
   rows?: string | number;
   cols?: string | number;
   isError?: boolean;
-  error?: string;
+  error?: string | null;
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {

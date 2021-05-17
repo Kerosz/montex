@@ -2,6 +2,7 @@
 import useSWR, { mutate } from "swr";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { format } from "date-fns";
 // components
 import SiteLayout from "@components/layouts/site";
 import Input from "@components/ui/input";
@@ -9,13 +10,13 @@ import BasePanel from "@components/base-panel";
 import Badge from "@components/ui/badge";
 import Table from "@components/ui/table";
 import Button from "@components/ui/button";
+import Toast, { useToast } from "@components/ui/toast";
 // helpers
 import { createNewRoute } from "@services/firestore";
 import { rawRouteTransform } from "@helpers/transformers";
 import { ADD_ROUTE } from "@helpers/validations";
 // types
 import type { PageProps, SiteData, RawRouteData, RouteData } from "@/types";
-import { format } from "date-fns";
 
 type RoutesFormData = RawRouteData;
 
@@ -47,19 +48,27 @@ export default function Routes({ data }: PageProps<SiteData>): JSX.Element {
     resolver: yupResolver(ADD_ROUTE),
     mode: "all",
   });
+  const { config, toast } = useToast();
 
   const onSubmitHandler = async (formData: RoutesFormData) => {
     await createNewRoute(formData, data.id);
 
     const tempRouteData = rawRouteTransform(formData, null, data.id);
-
     await mutate(`/api/routes/${data.id}`, [...(routeData as RouteData[]), tempRouteData]);
+
+    toast({
+      title: "Route created.",
+      description: "We've successfully created a new route for you.",
+      status: "success",
+      duration: 3500,
+    });
 
     reset(DEFAULT_FORM_VALUES);
   };
 
   return (
     <div className="flex flex-col w-full space-y-6">
+      <Toast {...config} />
       <BasePanel
         as="form"
         title="Management"
