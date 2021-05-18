@@ -9,9 +9,9 @@ export default function ContactPage() {
   return (
     <BaseLayout title="Contact" navbarProps={{ withBorder: true }}>
       <section className="bg-gray-50">
-        <Container className="py-20 pt-32 flex flex-col items-center">
-          <h1 className="text-7xl font-bold pb-10">We are here to help</h1>
-          <p className="text-2xl text-gray-500 pb-16">
+        <Container className="py-20 flex flex-col items-center">
+          <h1 className="text-[4.8rem] font-bold pb-5">We are here to help</h1>
+          <p className="text-2xl text-gray-500 pb-20">
             Get in touch and let us know how we can assist you
           </p>
 
