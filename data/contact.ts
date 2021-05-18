@@ -13,7 +13,7 @@ export default [
     icon: UserGroupIcon,
     title: "Partners",
     subTitle: "Join our partner ecosystem and accelerate your growth with Montex.",
-    cta: ["Become Partner", "/contact/partners"],
+    cta: ["Become Partner", "/partners"],
     scheme: "purple",
   },
 
