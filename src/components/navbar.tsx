@@ -5,7 +5,7 @@ import cn from "classnames";
 import { PlusIcon } from "@heroicons/react/outline";
 // components
 import Button from "@components/ui/button";
-import Container from "@components/ui/contaienr";
+import Container from "@components/ui/container";
 import Link from "@components/ui/link";
 import Dropdown from "@components/ui/dropdown";
 // context

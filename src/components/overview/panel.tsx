@@ -2,7 +2,7 @@
 import useSWR from "swr";
 import { formatDistanceStrict } from "date-fns";
 // components
-import Container from "@components/ui/contaienr";
+import Container from "@components/ui/container";
 import Button from "@/components/ui/button";
 import Link from "@components/ui/link";
 import Table from "@/components/ui/table";

@@ -5,7 +5,7 @@ import { CheckCircleIcon } from "@heroicons/react/solid";
 import Image from "next/image";
 // components
 import BaseLayout from "@components/layouts/base";
-import Container from "@components/ui/contaienr";
+import Container from "@components/ui/container";
 import Link from "@components/ui/link";
 import SigningForm from "@/components/signing-form";
 // context

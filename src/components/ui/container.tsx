@@ -1,14 +1,8 @@
 // packages
-import { forwardRef } from "react";
 import cn from "classnames";
 // types
 import type { FC, ComponentType, HTMLAttributes } from "react";
 import type { Component } from "@/types";
-
-enum Variant {
-  primary,
-  secondary,
-}
 
 export interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
   as?: Component;
@@ -17,7 +11,7 @@ export interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
   maxW?: string;
 }
 
-const Button: FC<ContainerProps> = (props) => {
+const Container: FC<ContainerProps> = (props) => {
   const { as, component = "div", className, children, reset, maxW = "", ...rest } = props;
 
   const Element = (as || component) as ComponentType<HTMLAttributes<HTMLDivElement>>;
@@ -38,4 +32,4 @@ const Button: FC<ContainerProps> = (props) => {
   );
 };
 
-export default Button;
+export default Container;

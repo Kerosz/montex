@@ -5,7 +5,7 @@ import Image from "next/image";
 // components
 import BaseLayout from "@components/layouts/base";
 import Button from "@components/ui/button";
-import Container from "@components/ui/contaienr";
+import Container from "@components/ui/container";
 import Link from "@components/ui/link";
 import AddSite from "@components/site/add-site";
 import Panel from "@components/overview/panel";
