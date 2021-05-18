@@ -2,7 +2,7 @@
 import Head from "next/head";
 // components
 import BaseLayout from "@components/layouts/base";
-import Container from "@components/ui/contaienr";
+import Container from "@components/ui/container";
 import Button from "@components/ui/button";
 import Link from "@components/ui/link";
 import FeatureSection from "@components/feature-section";

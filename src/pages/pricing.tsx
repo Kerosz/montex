@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { ArrowNarrowRightIcon } from "@heroicons/react/solid";
 // components
 import BaseLayout from "@components/layouts/base";
-import Container from "@components/ui/contaienr";
+import Container from "@components/ui/container";
 import Link from "@components/ui/link";
 import Button from "@/components/ui/button";
 import Accordion from "@/components/ui/accordion";

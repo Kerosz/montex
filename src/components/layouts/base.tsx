@@ -1,6 +1,8 @@
 // packages
+import dynamic from "next/dynamic";
 import { NextSeo } from "next-seo";
 // components
+const CookieBanner = dynamic(() => import("@components/cookie-banner"), { ssr: false });
 import Navbar, { NavbarProps } from "@components/navbar";
 import Footer from "@components/footer";
 // types
@@ -29,6 +31,8 @@ export default function BaseLayout({
       {withNav && <Navbar {...navbarProps} />}
       <main>{children}</main>
       {withFooter && <Footer />}
+
+      <CookieBanner />
     </>
   );
 }

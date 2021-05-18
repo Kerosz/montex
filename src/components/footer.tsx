@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { format } from "date-fns";
 // components
-import Container from "@components/ui/contaienr";
+import Container from "@components/ui/container";
 import Link from "@components/ui/link";
 import List from "@components/ui/list";
 import Select from "@components/ui/select";

@@ -1,5 +1,5 @@
 // components
-import Container from "@components/ui/contaienr";
+import Container from "@components/ui/container";
 import Button from "./ui/button";
 import Link from "./ui/link";
 

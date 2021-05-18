@@ -5,7 +5,7 @@ import useSWR from "swr";
 // components
 import BaseLayout from "@components/layouts/base";
 import Sidebar from "@components/site/sidebar";
-import Container from "@components/ui/contaienr";
+import Container from "@components/ui/container";
 import Button from "@components/ui/button";
 import Link from "@components/ui/link";
 import Badge from "@components/ui/badge";
