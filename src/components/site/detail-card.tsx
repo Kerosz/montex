@@ -10,7 +10,7 @@ export interface CardProps {
   data: SiteData;
 }
 
-export default function Card({ data }: CardProps) {
+export default function DetailCard({ data }: CardProps): JSX.Element {
   return (
     <div className="border border-gray-100 shadow-md rounded pt-4 space-y-4">
       <div className="flex w-full justify-between items-center sm:px-6 px-4 py-1.5">
