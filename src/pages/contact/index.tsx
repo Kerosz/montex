@@ -2,7 +2,7 @@
 import BaseLayout from "@components/layouts/base";
 import Accordion from "@components/ui/accordion";
 import Container from "@components/ui/container";
-import ContactCard from "@components/contact-card";
+import ContactCard from "@components/contact/contact-card";
 // data
 import cards from "@data/contact";
 import faq from "@data/pricing/faq";

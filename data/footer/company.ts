@@ -9,6 +9,6 @@ export default [
   },
   {
     label: "Partners",
-    link: "/contact/partners",
+    link: "/partners",
   },
 ];

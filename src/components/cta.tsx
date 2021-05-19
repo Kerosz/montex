@@ -50,7 +50,7 @@ export default function CallToAction({
   });
 
   return (
-    <div className={backgroundClass}>
+    <section className={backgroundClass}>
       <Container>
         <div className="py-12 lg:py-16 lg:flex lg:items-center lg:justify-between">
           <h2 className="font-extrabold tracking-tight">
@@ -80,6 +80,6 @@ export default function CallToAction({
           </div>
         </div>
       </Container>
-    </div>
+    </section>
   );
 }

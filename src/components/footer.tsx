@@ -36,9 +36,9 @@ export default function Footer() {
             </div>
 
             <div className="grid sm:grid-cols-3 grid-cols-1 md:gap-7 sm:gap-16 gap-8 w-full md:mt-0 sm:mt-10 mt-8">
-              <List title="Company" data={companyList} withSpace={false} />
-              <List title="Developers" data={devList} withSpace={false} />
-              <List title="Legal" data={legalList} withSpace={false} />
+              <List title="Company" data={companyList} listItemProps={{ withSpace: false }} />
+              <List title="Developers" data={devList} listItemProps={{ withSpace: false }} />
+              <List title="Legal" data={legalList} listItemProps={{ withSpace: false }} />
             </div>
           </div>
         </Container>
