@@ -92,7 +92,7 @@ TierTable.Option = function ({
         customIcon={MinusSmIcon}
         title="Features"
         titleClass="text-xl"
-        listClass="text-lg"
+        listItemProps={{ className: "text-lg" }}
       />
 
       <Button as={Link} href={buttonLink} variant="slim" className={buttonColor}>
