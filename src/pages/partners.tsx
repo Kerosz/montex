@@ -2,6 +2,7 @@
 import BaseLayout from "@components/layouts/base";
 import Container from "@components/ui/container";
 import PartnerBenefits from "@components/contact/partner-benefits";
+import PartnerForm from "@components/contact/partner-form";
 
 export default function PartnersPage() {
   return (
@@ -18,10 +19,7 @@ export default function PartnersPage() {
         </section>
 
         <PartnerBenefits />
-
-        <h2 className="text-3xl font-bold py-10">
-          Form TBA <em>( needs implementation )</em>
-        </h2>
+        <PartnerForm />
       </Container>
     </BaseLayout>
   );

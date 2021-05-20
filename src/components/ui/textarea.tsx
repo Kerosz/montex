@@ -4,13 +4,13 @@ import { forwardRef } from "react";
 // types
 import type { ComponentPropsWithRef } from "react";
 
-export interface InputProps extends ComponentPropsWithRef<"input"> {
+export interface TextareaProps extends ComponentPropsWithRef<"textarea"> {
   isError?: boolean;
   error?: string;
 }
 
-const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
-  const { type = "text", className, disabled, readOnly, isError, error, hidden, ...rest } = props;
+const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>((props, ref) => {
+  const { className, disabled, readOnly, isError, error, ...rest } = props;
 
   const rootClass = cn(
     "block focus:ring-0 w-full shadow-sm sm:text-sm border-gray-300 rounded-md",
@@ -24,15 +24,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
 
   return (
     <>
-      <input
-        type={type}
-        ref={ref}
-        className={hidden ? "" : rootClass}
-        disabled={disabled}
-        readOnly={readOnly}
-        hidden={hidden}
-        {...rest}
-      />
+      <textarea ref={ref} className={rootClass} disabled={disabled} readOnly={readOnly} {...rest} />
       {isError && (
         <span role="alert" className="block text-sm text-secondary mt-1 pl-0.5">
           {error}
@@ -42,4 +34,4 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   );
 });
 
-export default Input;
+export default Textarea;

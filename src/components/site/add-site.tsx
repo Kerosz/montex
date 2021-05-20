@@ -6,6 +6,8 @@ import useSWR, { mutate } from "swr";
 // components
 import Modal from "@components/ui/modal";
 import Button from "../ui/button";
+import Input from "@components/ui/input";
+import Textarea from "@components/ui/textarea";
 import Toast, { useToast } from "@components/ui/toast";
 // context
 import { useAuth } from "@/context/auth";
@@ -13,10 +15,8 @@ import { useAuth } from "@/context/auth";
 import { createNewSite } from "@/services/firestore";
 import { ADD_SITE_SCHEMA } from "@helpers/validations";
 import { transformRawSite } from "@helpers/transformers";
-import fetcher from "@helpers/fetcher";
 // types
-import type { RawSiteData } from "@/types";
-import Input from "@components/ui/input";
+import type { RawSiteData, SiteData } from "@/types";
 
 export interface AddSiteProps {
   isOpen: boolean;
@@ -42,7 +42,7 @@ export default function AddSite({ isOpen, onClose }: AddSiteProps): JSX.Element 
     defaultValues: DEFAULT_FORM_VALUES,
     mode: "all",
   });
-  const { data } = useSWR<any>("/api/sites", fetcher);
+  const { data } = useSWR<Array<SiteData>>("/api/sites");
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -56,7 +56,7 @@ export default function AddSite({ isOpen, onClose }: AddSiteProps): JSX.Element 
       await createNewSite(formData, user.uid);
 
       const tempSiteData = transformRawSite(formData, null, user.uid);
-      await mutate(`/api/sites/${user.uid}`, [...data, tempSiteData]);
+      await mutate(`/api/sites/${user.uid}`, [...(data as SiteData[]), tempSiteData]);
 
       toast({
         title: "Site successfully added!",
@@ -122,8 +122,7 @@ export default function AddSite({ isOpen, onClose }: AddSiteProps): JSX.Element 
               Description
             </label>
             <div className="mt-1">
-              <Input
-                as="textarea"
+              <Textarea
                 id="description"
                 placeholder="Brief description for your site."
                 aria-invalid={!!errors.description}

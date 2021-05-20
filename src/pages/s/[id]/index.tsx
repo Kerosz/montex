@@ -6,6 +6,7 @@ import { mutate } from "swr";
 import SiteLayout from "@components/layouts/site";
 import Link from "@/components/ui/link";
 import Input from "@/components/ui/input";
+import Textarea from "@components/ui/textarea";
 import Button from "@/components/ui/button";
 // hooks
 import { useAuth } from "@/context/auth";
@@ -100,8 +101,7 @@ export default function General({ data }: PageProps<SiteData>): JSX.Element {
             </label>
 
             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              <Input
-                as="textarea"
+              <Textarea
                 id="description"
                 placeholder="Brief description for your site."
                 defaultValue={data.description}
