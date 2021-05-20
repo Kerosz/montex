@@ -14,7 +14,7 @@ export default function PartnerBenefits() {
 
       <div className="col-span-6">
         <h2 className="text-2xl text-gray-800 pb-2.5">Register as a Montex Partner</h2>
-        <p className="text-lg text-gray-600 pb-4">
+        <p className="text-lg text-gray-600 pb-8">
           By registering, you can get access to partner only yearly and monthly fixed discounts,
           priority support and much more.
         </p>

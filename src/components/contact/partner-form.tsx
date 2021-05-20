@@ -9,7 +9,7 @@ import Input from "@components/ui/input";
 import Textarea from "@components/ui/textarea";
 import Button from "@components/ui/button";
 // helpers
-import { PARTNER_SCHEMA } from "@helpers/validations";
+import { CONTACT_SCHEMA } from "@helpers/validations";
 
 type PartnerFormData = {
   partner_type: string;
@@ -48,7 +48,7 @@ export default function PartnerForm() {
     reset,
     setValue,
   } = useForm<PartnerFormData>({
-    resolver: yupResolver(PARTNER_SCHEMA),
+    resolver: yupResolver(CONTACT_SCHEMA),
     defaultValues: DEFAULT_FORM_VALUES,
     mode: "all",
   });
@@ -68,7 +68,7 @@ export default function PartnerForm() {
     <section className="md:pb-20 pt-14 py-14">
       <Container className="flex justify-center">
         <form
-          className="w-full sm:max-w-2xl bg-gray-50 shadow-lg rounded-md p-6 space-y-7"
+          className="w-full sm:max-w-2xl bg-gray-50 shadow-lg rounded-md sm:px-6 py-6 px-3 space-y-7"
           onSubmit={handleSubmit(onSubmitHandler)}
         >
           <h2 className="text-center text-3xl font-bold pb-3">Become a Partner today</h2>

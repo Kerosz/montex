@@ -40,7 +40,7 @@ export const SIGNUP_SCHEMA = Yup.object().shape({
     .required("Password is a required field"),
 });
 
-export const PARTNER_SCHEMA = Yup.object().shape({
+export const CONTACT_SCHEMA = Yup.object().shape({
   first_name: Yup.string()
     .min(2, "First Name must be at least 2 characters long!")
     .max(18, "First Name must be 18 characters at most!")
