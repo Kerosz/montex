@@ -2,7 +2,7 @@
 import { DocumentAddIcon } from "@heroicons/react/outline";
 // components
 import Button from "@/components/ui/button";
-import Card from "./card";
+import DetailCard from "./detail-card";
 // types
 import type { SiteData } from "@/types";
 
@@ -31,7 +31,7 @@ export default function List({ data, onOpen }: ListProps) {
       {data.length > 0 && (
         <div className="grid lg:grid-cols-2 grid-cols-1 xl:gap-14 gap-8">
           {data.map((site) => (
-            <Card key={site.id} data={site} />
+            <DetailCard key={site.id} data={site} />
           ))}
         </div>
       )}

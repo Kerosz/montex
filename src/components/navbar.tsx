@@ -187,11 +187,22 @@ export default function Navbar({ variant = "base", withBorder }: NavbarProps): J
               as={Link}
               href="/pricing"
               variant="slim"
-              className="py-1.5 px-2 text-gray-500 hover:text-black-normal"
+              className="py-1.5 px-1 text-gray-500 hover:text-black-normal"
               title="Pricing"
               reset
             >
               Pricing
+            </Button>
+
+            <Button
+              as={Link}
+              href="/contact"
+              variant="slim"
+              className="py-1.5 px-1 text-gray-500 hover:text-black-normal"
+              title="Contact"
+              reset
+            >
+              Contact
             </Button>
 
             <Button as={Link} href="/login" variant="secondary" size="normal" title="Login">

@@ -1,5 +1,3 @@
-// packages
-import Head from "next/head";
 // components
 import BaseLayout from "@components/layouts/base";
 import Container from "@components/ui/container";
@@ -13,10 +11,7 @@ import toolingFeature from "@data/landing/tooling-features";
 
 export default function Home(): JSX.Element {
   return (
-    <BaseLayout>
-      <Head>
-        <title>Montex - Add. Embed. Comment. Easiest way to add comments and reviews</title>
-      </Head>
+    <BaseLayout title="Add. Embed. Comment. Easiest way to add comments and reviews">
       <Container>
         <div className="flex flex-col py-10 items-center">
           <Heading title="Add." />
@@ -47,7 +42,12 @@ export default function Home(): JSX.Element {
         <FeatureSection colorScheme="blue" data={toolingFeature} />
       </Container>
 
-      <CallToAction />
+      <CallToAction
+        title="Grow with us"
+        subTitle="The platform to empower your website engagement"
+        primaryBtn={["Get started", "/signup"]}
+        secondaryBtn={["Learn more", "/pricing"]}
+      />
     </BaseLayout>
   );
 }
