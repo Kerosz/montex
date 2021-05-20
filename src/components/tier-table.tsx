@@ -89,7 +89,7 @@ TierTable.Option = function ({
 
       <List
         data={featureData}
-        customIcon={MinusSmIcon}
+        icon={MinusSmIcon}
         title="Features"
         titleClass="text-xl"
         listItemProps={{ className: "text-lg" }}

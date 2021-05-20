@@ -16,7 +16,8 @@ type ListOptions = {
 export interface ListProps extends ComponentProps<"ul"> {
   data?: Array<ListData>;
   title?: string;
-  customIcon?: Component;
+  icon?: Component;
+  customIcon?: Component | ReactNode;
   titleClass?: string;
   listItemProps?: ListOptions & ComponentProps<"li">;
   children?: ReactNode;
@@ -44,7 +45,7 @@ function ListItem({
   const IconEl = icon;
 
   const listItemClass = cn(
-    "flex items-center text-gray-600 py-1",
+    "flex items-center text-gray-600 py-1.5",
     {
       "pl-4": withSpace,
       "list-disc": withBullet && !icon,
@@ -72,9 +73,56 @@ function ListItem({
   );
 }
 
+/**
+ * List component to auto-generate lists or compose them using a friendly API
+ *
+ * @component
+ * @param data List data to be mapped inside the component
+ * @param title List title
+ * @param icon Icon to be passed in the default styles of the component
+ * @param customIcon Custom icon for list items. It's being applied globally
+ * @param className Extend root list default styles
+ * @param titleClass Extend title default styles
+ * @param listItemProps Object of properties to be injected into the `List Item`
+ * @param children - Any react node
+ * @param rest - Remaining properties that are to be passed in the root element
+ *
+ * @example With data mapping
+ * const data = [
+ *    {
+ *        label: "First item"
+ *    },
+ *    {
+ *        label: "With link",
+ *        link: "/my-path"
+ *    },
+ *    {
+ *        label: "With external link",
+ *        link: "my-external-path",
+ *        external: true
+ *    }
+ *    ...
+ * ]
+ * return (
+ *    <List title="MyList" data={data} listItemProps={{ withSpace: false }} />
+ * );
+ *
+ * @example With Item API
+ * return (
+ *    <List>
+ *        <List.Item
+ *          withSpace={false}
+ *          customIcon={MyCustomIcon}
+ *        >
+ *            My list item
+ *         </List.Item>
+ *    </List>
+ * );
+ */
 export default function List({
   data,
   title,
+  icon,
   customIcon,
   className,
   titleClass,
@@ -95,7 +143,8 @@ export default function List({
             label={label}
             link={link}
             external={external}
-            icon={customIcon}
+            icon={icon}
+            customIcon={customIcon}
             {...listItemProps}
           />
         ))}
