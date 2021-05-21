@@ -1,5 +1,6 @@
 // packages
 import Document, { Head, Html, Main, NextScript } from "next/document";
+import { tawkScriptInit } from "@/lib/tawk";
 
 class MyDocument extends Document {
   render(): JSX.Element {
@@ -13,7 +14,6 @@ class MyDocument extends Document {
         </Head>
         <body>
           <Main />
-          <div id="__portals" className="fixed z-40 top-0 right-0 flex flex-col items-end" />
           <NextScript />
         </body>
       </Html>
