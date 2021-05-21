@@ -8,6 +8,7 @@ import Select from "@components/ui/select";
 import Input from "@components/ui/input";
 import Textarea from "@components/ui/textarea";
 import Button from "@components/ui/button";
+import Toast, { useToast } from "@components/ui/toast";
 // helpers
 import { CONTACT_SCHEMA } from "@helpers/validations";
 
@@ -52,11 +53,24 @@ export default function PartnerForm() {
     defaultValues: DEFAULT_FORM_VALUES,
     mode: "all",
   });
+  const { config, toast } = useToast();
 
   const onSubmitHandler: SubmitHandler<PartnerFormData> = async (formData) => {
-    // TODO: Send mail when sendgrid package is implemented
+    await fetch("/api/send/partner", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
 
-    alert(JSON.stringify(formData, null, 2));
+    toast({
+      title: "Successfully sent!",
+      description:
+        "We've successfully sent your partnership request. Our team will contact you soon!",
+      status: "success",
+      duration: 3500,
+    });
 
     reset(DEFAULT_FORM_VALUES);
   };
@@ -66,6 +80,7 @@ export default function PartnerForm() {
 
   return (
     <section className="md:pb-20 pt-14 py-14">
+      <Toast {...config} />
       <Container className="flex justify-center">
         <form
           className="w-full sm:max-w-2xl bg-gray-50 shadow-lg rounded-md sm:px-6 py-6 px-3 space-y-7"

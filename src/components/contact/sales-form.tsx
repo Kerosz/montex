@@ -2,6 +2,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 // components
+import Toast, { useToast } from "@components/ui/toast";
 import Input from "@components/ui/input";
 import Textarea from "@components/ui/textarea";
 import Button from "@components/ui/button";
@@ -39,11 +40,23 @@ export default function SalesForm() {
     defaultValues: DEFAULT_FORM_VALUES,
     mode: "all",
   });
+  const { config, toast } = useToast();
 
   const onSubmitHandler: SubmitHandler<ContactFormData> = async (formData) => {
-    // TODO: Send mail when sendgrid package is implemented
+    await fetch("/api/send/sales", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
 
-    alert(JSON.stringify(formData, null, 2));
+    toast({
+      title: "Successfully sent!",
+      description: "We've successfully sent your contact enquiry. Our team will contact you soon!",
+      status: "success",
+      duration: 3500,
+    });
 
     reset(DEFAULT_FORM_VALUES);
   };
@@ -53,6 +66,7 @@ export default function SalesForm() {
       className="w-full md:max-w-sm max-w-2xl bg-white-normal shadow-md rounded-md p-6 space-y-7 ml-0 md:ml-6 lg:ml-0 mb-6 md:mb-0"
       onSubmit={handleSubmit(onSubmitHandler)}
     >
+      <Toast {...config} />
       <div className="w-full">
         <label htmlFor="first_name" className="block text-black-light font-semibold pb-2">
           First Name
