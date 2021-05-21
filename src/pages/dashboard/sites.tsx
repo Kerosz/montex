@@ -5,7 +5,7 @@ import { PlusSmIcon } from "@heroicons/react/outline";
 import useSWR from "swr";
 // components
 import BaseLayout from "@components/layouts/base";
-import Container from "@components/ui/contaienr";
+import Container from "@components/ui/container";
 import Button from "@components/ui/button";
 import AddSite from "@components/site/add-site";
 import Search from "@components/site/search";

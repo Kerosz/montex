@@ -4,7 +4,11 @@ export default [
     link: "/pricing",
   },
   {
-    label: "Contact",
-    link: "/contact",
+    label: "Sales",
+    link: "/contact/sales",
+  },
+  {
+    label: "Partners",
+    link: "/partners",
   },
 ];

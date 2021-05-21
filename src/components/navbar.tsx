@@ -5,7 +5,7 @@ import cn from "classnames";
 import { PlusIcon } from "@heroicons/react/outline";
 // components
 import Button from "@components/ui/button";
-import Container from "@components/ui/contaienr";
+import Container from "@components/ui/container";
 import Link from "@components/ui/link";
 import Dropdown from "@components/ui/dropdown";
 // context
@@ -187,11 +187,22 @@ export default function Navbar({ variant = "base", withBorder }: NavbarProps): J
               as={Link}
               href="/pricing"
               variant="slim"
-              className="py-1.5 px-2 text-gray-500 hover:text-black-normal"
+              className="py-1.5 px-1 text-gray-500 hover:text-black-normal"
               title="Pricing"
               reset
             >
               Pricing
+            </Button>
+
+            <Button
+              as={Link}
+              href="/contact"
+              variant="slim"
+              className="py-1.5 px-1 text-gray-500 hover:text-black-normal"
+              title="Contact"
+              reset
+            >
+              Contact
             </Button>
 
             <Button as={Link} href="/login" variant="secondary" size="normal" title="Login">

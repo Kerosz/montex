@@ -6,6 +6,7 @@ import { mutate } from "swr";
 import SiteLayout from "@components/layouts/site";
 import Link from "@/components/ui/link";
 import Input from "@/components/ui/input";
+import Textarea from "@components/ui/textarea";
 import Button from "@/components/ui/button";
 // hooks
 import { useAuth } from "@/context/auth";
@@ -163,6 +164,7 @@ export default function General({ data }: PageProps<SiteData>): JSX.Element {
                 error={errors.nsfw_content?.message}
                 {...register("nsfw_content")}
               />
+<<<<<<< HEAD
               <label htmlFor="nsfw_content" className="ml-2 text-gray-600">
                 Flag my site as adult content or NSFW
               </label>
@@ -177,6 +179,35 @@ export default function General({ data }: PageProps<SiteData>): JSX.Element {
 
           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
             <div className="flex items-center">
+=======
+            </dd>
+          </div>
+
+          <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <label htmlFor="description" className="text-sm font-medium text-gray-600">
+              Description
+            </label>
+
+            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <Textarea
+                id="description"
+                placeholder="Brief description for your site."
+                defaultValue={data.description}
+                rows={5}
+                isError={errors.description && touchedFields.description}
+                error={errors.description?.message}
+                {...register("description")}
+              />
+            </dd>
+          </div>
+
+          <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <label htmlFor="comment_policy" className="text-sm font-medium text-gray-600">
+              Comment Policy URL
+            </label>
+
+            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+>>>>>>> main
               <Input
                 type="checkbox"
                 variant="normal"

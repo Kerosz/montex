@@ -1,9 +1,8 @@
 // packages
-import { forwardRef } from "react";
 import cn from "classnames";
+import { forwardRef } from "react";
 // types
 import type { ComponentPropsWithRef } from "react";
-import type { Component } from "@/types";
 
 enum Variant {
   normal,
@@ -11,10 +10,6 @@ enum Variant {
 }
 
 export interface InputProps extends ComponentPropsWithRef<"input"> {
-  as?: Component;
-  component?: Component;
-  rows?: string | number;
-  cols?: string | number;
   variant?: keyof typeof Variant;
   isError?: boolean;
   error?: string | null;
@@ -23,14 +18,13 @@ export interface InputProps extends ComponentPropsWithRef<"input"> {
 const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   const {
     type = "text",
-    as,
-    component = "input",
     className,
     disabled,
-    variant = "full",
     readOnly,
     isError,
     error,
+    hidden,
+    variant,
     ...rest
   } = props;
 
@@ -45,16 +39,15 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     className
   );
 
-  const El = as || component;
-
   return (
     <>
-      <El
+      <input
         type={type}
         ref={ref}
-        className={rootClass}
+        className={hidden ? "" : rootClass}
         disabled={disabled}
         readOnly={readOnly}
+        hidden={hidden}
         {...rest}
       />
       {isError && (

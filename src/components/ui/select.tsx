@@ -1,5 +1,5 @@
 // packages
-import { Fragment, useState } from "react";
+import { Dispatch, Fragment, ReactNode, SetStateAction, useMemo, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 import cn from "classnames";
@@ -9,10 +9,12 @@ import type { ComponentProps } from "react";
 type SelectData = {
   id: string | number;
   name: string;
-  avatar: string;
+  avatar?: string;
 };
 
 export interface SelectProps extends ComponentProps<"div"> {
+  selected: SelectData;
+  setSelected: Dispatch<SetStateAction<any>>;
   data: Array<SelectData>;
   title?: string;
   titleClass?: string;
@@ -22,17 +24,18 @@ export interface SelectProps extends ComponentProps<"div"> {
 }
 
 export default function Select({
+  selected,
+  setSelected,
   data,
   title,
   titleClass,
   buttonClass,
   optionsClass,
   withIcon = false,
+  children,
   ...rest
 }: SelectProps) {
-  const [selected, setSelected] = useState(data[0]);
-
-  const titleRootClass = cn("block text-black-light font-semibold", titleClass);
+  const titleRootClass = cn("block text-black-light font-semibold pb-2", titleClass);
   const buttonRootClass = cn(
     "relative w-full min-w-[130px] bg-white-normal border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-0 focus:border-black-normal sm:text-sm",
     buttonClass
@@ -47,7 +50,7 @@ export default function Select({
       {({ open }) => (
         <div {...rest}>
           {title && <Listbox.Label className={titleRootClass}>{title}</Listbox.Label>}
-          <div className="mt-2 relative">
+          <div className="relative">
             <Listbox.Button className={buttonRootClass}>
               <span className="flex items-center">
                 {withIcon && (

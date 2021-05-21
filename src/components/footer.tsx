@@ -1,8 +1,9 @@
 // packages
 import Image from "next/image";
+import { useState } from "react";
 import { format } from "date-fns";
 // components
-import Container from "@components/ui/contaienr";
+import Container from "@components/ui/container";
 import Link from "@components/ui/link";
 import List from "@components/ui/list";
 import Select from "@components/ui/select";
@@ -15,6 +16,9 @@ import languageList from "@data/footer/language";
 import themeList from "@data/footer/theme";
 
 export default function Footer() {
+  const [languageState, setLanguage] = useState(languageList[0]);
+  const [themeState, setTheme] = useState(themeList[0]);
+
   return (
     <footer>
       <div className="border-t border-b border-gray-200 py-16">
@@ -30,15 +34,27 @@ export default function Footer() {
               </p>
 
               <div className="flex flex-wrap">
-                <Select title="Language" data={languageList} className="mr-5 mt-4" />
-                <Select title="Theme" data={themeList} className="mt-4" />
+                <Select
+                  title="Language"
+                  data={languageList}
+                  selected={languageState}
+                  setSelected={setLanguage}
+                  className="mr-5 mt-4"
+                />
+                <Select
+                  title="Theme"
+                  data={themeList}
+                  selected={themeState}
+                  setSelected={setTheme}
+                  className="mt-4"
+                />
               </div>
             </div>
 
             <div className="grid sm:grid-cols-3 grid-cols-1 md:gap-7 sm:gap-16 gap-8 w-full md:mt-0 sm:mt-10 mt-8">
-              <List title="Company" data={companyList} withSpace={false} />
-              <List title="Developers" data={devList} withSpace={false} />
-              <List title="Legal" data={legalList} withSpace={false} />
+              <List title="Company" data={companyList} listItemProps={{ withSpace: false }} />
+              <List title="Developers" data={devList} listItemProps={{ withSpace: false }} />
+              <List title="Legal" data={legalList} listItemProps={{ withSpace: false }} />
             </div>
           </div>
         </Container>

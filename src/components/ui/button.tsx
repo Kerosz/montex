@@ -54,7 +54,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
     ...rest
   } = props;
 
-  const primaryClass = "bg-black-normal text-white-normal hover:bg-black-light";
+  const primaryClass =
+    "bg-black-normal text-white-normal hover:bg-black-light border border-black-normal hover:border-black-light";
   const twitterClass = "bg-blue-500 border border-gray-200 text-white-normal hover:text-gray-200";
   const secondaryClass =
     "bg-white-normal text-gray-500 border border-gray-200 hover:text-black-light";
