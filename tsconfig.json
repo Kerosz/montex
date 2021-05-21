@@ -24,6 +24,7 @@
       "@helpers/*": ["./helpers/*"],
       "@types/*": ["./types/*"],
       "@data/*": ["../data/*"],
+      "@email/*": ["../email/*"],
       "@store/*": ["./store/*"],
       "@hooks/*": ["./hooks/*"]
     }
