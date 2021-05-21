@@ -33,7 +33,7 @@ export default function SalesForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, touchedFields },
+    formState: { errors, isSubmitting, isValid, touchedFields },
     reset,
   } = useForm<ContactFormData>({
     resolver: yupResolver(CONTACT_SCHEMA),
@@ -174,7 +174,14 @@ export default function SalesForm() {
         />
       </div>
 
-      <Button type="submit" variant="primary" size="medium" loading={isSubmitting}>
+      <Button
+        type="submit"
+        variant="primary"
+        size="medium"
+        loading={isSubmitting}
+        disabled={!isValid}
+        aria-disabled={!isValid}
+      >
         Submit
       </Button>
     </form>

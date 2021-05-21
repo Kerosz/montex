@@ -8,9 +8,10 @@ import {
   InformationCircleIcon,
   XCircleIcon,
 } from "@heroicons/react/outline";
+// components
+import Button from "@components/ui/button";
 //types
 import type { ReactNode } from "react";
-import Button from "@components/ui/button";
 
 enum Status {
   info,

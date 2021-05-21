@@ -45,7 +45,7 @@ export default function PartnerForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, touchedFields },
+    formState: { errors, isSubmitting, isValid, touchedFields },
     reset,
     setValue,
   } = useForm<PartnerFormData>({
@@ -208,7 +208,14 @@ export default function PartnerForm() {
             />
           </div>
 
-          <Button type="submit" variant="primary" size="medium" loading={isSubmitting}>
+          <Button
+            type="submit"
+            variant="primary"
+            size="medium"
+            loading={isSubmitting}
+            disabled={!isValid}
+            aria-disabled={!isValid}
+          >
             Send Request
           </Button>
         </form>
