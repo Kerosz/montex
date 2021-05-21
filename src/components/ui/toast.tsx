@@ -10,6 +10,7 @@ import {
 } from "@heroicons/react/outline";
 //types
 import type { ReactNode } from "react";
+import Button from "@components/ui/button";
 
 enum Status {
   info,
@@ -47,7 +48,7 @@ export default function Toast({
   status,
   config = {},
 }: ToastProps): JSX.Element {
-  const { withIcon = false, position = "top-left" } = config;
+  const { withIcon = true, position = "top-right" } = config;
 
   const overlayClass = cn("fixed px-4 py-6 z-50", {
     "left-0 top-0": position === "top-left",
@@ -56,11 +57,11 @@ export default function Toast({
     "right-0 bottom-0": position === "bottom-right",
   });
 
-  const rootClass = cn("w-[400px] px-3 py-4 shadow-lg rounded-md", {
-    "border border-blue-500 bg-blue-400": status === "info",
-    "border border-red-500 bg-red-400": status === "error",
-    "border border-yellow-500 bg-yellow-400": status === "warning",
-    "border border-green-500 bg-green-400": status === "success",
+  const iconClass = cn("sm:mx-5 sm:my-0 my-2 place-self-center", {
+    "text-blue-400": status === "info",
+    "text-red-400": status === "error",
+    "text-yellow-400": status === "warning",
+    "text-green-400": status === "success",
   });
 
   return (
@@ -75,28 +76,29 @@ export default function Toast({
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <div className={rootClass}>
-          <div className="flex items-start">
+        <div className="w-full bg-gray-50 border border-gray-100 shadow-md rounded-md" role="alert">
+          <div className="flex sm:flex-row flex-col items-center">
             {withIcon && (
-              <div className="flex-shrink-0 mr-4 place-self-center text-white-normal">
-                {status === "success" && <CheckCircleIcon className="w-9" />}
-                {status === "info" && <InformationCircleIcon className="w-9" />}
-                {status === "warning" && <ExclamationIcon className="w-9" />}
-                {status === "error" && <XCircleIcon className="w-9" />}
+              <div className={iconClass}>
+                {status === "success" && <CheckCircleIcon className="w-10" />}
+                {status === "info" && <InformationCircleIcon className="w-10" />}
+                {status === "warning" && <ExclamationIcon className="w-10" />}
+                {status === "error" && <XCircleIcon className="w-10" />}
               </div>
             )}
-            <div className="flex-grow">
-              <p className="text-base font-semibold text-white-normal text-left">{title}</p>
-              <p className="mt-1.5 text-sm text-white-normal text-left">{description}</p>
+            <div className="flex-grow sm:max-w-sm max-w-sm sm:border-l sm:border-r sm:border-t-0 sm:border-b-0 border-t border-b border-gray-300 sm:px-5 px-3 py-3">
+              <p className="text-base font-semibold text-black-normal text-left">{title}</p>
+              <p className="mt-1.5 text-sm text-black-normal text-left">{description}</p>
             </div>
-            <div className="ml-4 flex-shrink-0 flex">
-              <button
-                onClick={onClose}
-                className="text-white-normal border border-gray-50 px-2 rounded-md focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-white-normal"
-              >
-                <span className="sr-only">Close</span>x
-              </button>
-            </div>
+
+            <Button
+              variant="slim"
+              onClick={onClose}
+              className="sm:p-4 sm:max-w-max w-full p-2 text-sm"
+              reset
+            >
+              Dismiss
+            </Button>
           </div>
         </div>
       </Transition>
