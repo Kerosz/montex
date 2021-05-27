@@ -30,6 +30,19 @@ export const UPDATE_SITE_SCHEMA = Yup.object().shape({
   branding: Yup.bool(),
 });
 
+export const ADD_ROUTE = Yup.object().shape({
+  name: Yup.string()
+    .min(2, "Name must be at least 2 characters long!")
+    .max(128, "Name must be 128 characters at most!")
+    .required("Name is a required field!")
+    .strict(),
+  path: Yup.string()
+    .min(2, "Path must be at least 2 characters long!")
+    .max(128, "Path must be 128 characters at most!")
+    .required("Path is a required field!")
+    .strict(),
+});
+
 export const SIGNUP_SCHEMA = Yup.object().shape({
   email: Yup.string()
     .email("Email address has a wrong format")

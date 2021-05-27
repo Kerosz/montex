@@ -2,9 +2,9 @@
 import firebase from "@/lib/firebase";
 import { nanoid } from "nanoid";
 // helpers
-import { transformRawSite } from "@/helpers/transformers";
+import { rawRouteTransform, transformRawSite } from "@/helpers/transformers";
 // types
-import type { RawSiteData, SiteData, AuthUserWithoutToken } from "@/types";
+import type { RawSiteData, SiteData, AuthUserWithoutToken, RawRouteData } from "@/types";
 
 /** Firebase firestore init */
 const _DB = firebase.firestore();
@@ -41,7 +41,14 @@ export async function createNewSite(rawData: RawSiteData, userId: string): Promi
   return _DB.collection("sites").doc(id).set(newSite);
 }
 
-export async function updateSiteData(data: SiteData, siteId: string): Promise<void> {
+export async function createNewRoute(rawData: RawRouteData, siteId: string): Promise<void> {
+  const id = nanoid();
+  const newRouteData = rawRouteTransform(rawData, id, siteId);
+
+  return _DB.collection("routes").doc(id).set(newRouteData);
+}
+
+export async function updateSiteData(data: Partial<SiteData>, siteId: string): Promise<void> {
   data.updated_at = Date.now();
 
   return _DB.collection("sites").doc(siteId).update(data);
@@ -67,4 +74,22 @@ export async function getSiteBySiteId(siteId: string): Promise<SiteData | undefi
   const site = doc.data();
 
   return site as SiteData;
+}
+
+export async function deleteSite(siteId: string): Promise<void> {
+  await _DB.collection("sites").doc(siteId).delete();
+
+  // Using batch to delete all routes that references the deleted site by `site_id` field
+  // https://github.com/googleapis/nodejs-firestore/issues/64
+  await _DB
+    .collection("routes")
+    .where("site_id", "==", siteId)
+    .get()
+    .then((snapshot) => {
+      const batch = _DB.batch();
+
+      snapshot.forEach((doc) => batch.delete(doc.ref));
+
+      return batch.commit();
+    });
 }
